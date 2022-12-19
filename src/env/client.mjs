@@ -12,7 +12,7 @@ export const formatErrors = (
       if (value && "_errors" in value)
         return `${name}: ${value._errors.join(", ")}\n`;
     })
-    .filter(boolean);
+    .filter(Boolean);
 
 if (!_clientEnv.success) {
   console.error(
