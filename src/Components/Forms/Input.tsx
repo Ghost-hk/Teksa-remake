@@ -12,7 +12,7 @@ const Input: FC<InputProps> = ({ name, type, label }) => {
       <input
         type={type}
         id={name}
-        className="border-1 peer block w-full  rounded-lg border-gray-800 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0   "
+        className="border-1 peer block w-full rounded-lg border-gray-800 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0   "
         placeholder=" "
       />
       <label
