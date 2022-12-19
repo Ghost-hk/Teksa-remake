@@ -2,8 +2,8 @@ import { Dispatch, FC, SetStateAction } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface SidebarProps {
-  slidebarIsOpen: Boolean;
-  setSlidebarIsOpen: Dispatch<SetStateAction<Boolean>>;
+  slidebarIsOpen: boolean;
+  setSlidebarIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const Sidebar: FC<SidebarProps> = ({ slidebarIsOpen, setSlidebarIsOpen }) => {

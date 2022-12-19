@@ -8,9 +8,9 @@ import Link from "next/link";
 import Search from "./Search";
 interface NavbarProps {}
 
-const Navbar: FC<NavbarProps> = ({}) => {
-  const [slidebarIsOpen, setSlidebarIsOpen] = useState<Boolean>(false);
-  const [searchIsOpen, setSearchIsOpen] = useState<Boolean>(false);
+const Navbar: FC<NavbarProps> = () => {
+  const [slidebarIsOpen, setSlidebarIsOpen] = useState<boolean>(false);
+  const [searchIsOpen, setSearchIsOpen] = useState<boolean>(false);
   return (
     <>
       <nav className="sticky top-0 z-10 flex w-full justify-between bg-white px-3 py-6 drop-shadow-lg">

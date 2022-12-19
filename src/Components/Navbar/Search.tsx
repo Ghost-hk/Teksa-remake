@@ -2,8 +2,8 @@ import { Dispatch, FC, SetStateAction } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface SearchProps {
-  searchIsOpen: Boolean;
-  setSearchIsOpen: Dispatch<SetStateAction<Boolean>>;
+  searchIsOpen: boolean;
+  setSearchIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const Search: FC<SearchProps> = ({ searchIsOpen, setSearchIsOpen }) => {
