@@ -102,7 +102,7 @@ const Login = () => {
           </button>
           <div className="mt-6">
             <p className="text-center text-gray-800">
-              Don't have an acount?{" "}
+              Don&apos;t have an acount?{" "}
               <Link href="/singup" className="text-violet-600 underline">
                 Sing up
               </Link>
