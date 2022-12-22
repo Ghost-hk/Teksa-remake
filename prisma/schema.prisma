@@ -48,6 +48,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   profile       Profile?
+
+  @@unique([name, email])
 }
 
 model Profile {

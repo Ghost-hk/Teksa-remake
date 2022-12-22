@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Head from "next/head";
 import Link from "next/link";
 import { trpc } from "../../utils/trpc";
-// interface loginProps {}
+import { useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
 
 const formSchema = z.object({
   username: z.string().min(6).max(16),
@@ -16,20 +17,55 @@ const formSchema = z.object({
 type FormType = z.infer<typeof formSchema>;
 
 const SingUp = () => {
-  const { mutate } = trpc.singup.singUp.useMutation();
+  const { mutate, isError, error } = trpc.singup.singUp.useMutation();
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<FormType>({
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<FormType> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormType> = async (data) => {
+    if (data.password !== data.confirmpassword) {
+      return setError("confirmpassword", {
+        type: "custom",
+        message: "The passwords did not match",
+      });
+    }
+
     mutate(data);
-    console.log("mutate");
+
+    if (isError) {
+      return;
+    }
   };
+
+  useEffect(() => {
+    if (error?.message === "Username already taken") {
+      return setError("username", {
+        type: "custom",
+        message: "Username already taken",
+      });
+    } else if (error?.message === "Email already taken") {
+      return setError("email", {
+        type: "custom",
+        message: "Email already taken",
+      });
+    } else if (
+      error?.message === "User with this Email and Username already Exists"
+    ) {
+      setError("username", {
+        type: "custom",
+        message: "Username already taken",
+      });
+      setError("email", {
+        type: "custom",
+        message: "Email already taken",
+      });
+    }
+  }, [error]);
 
   return (
     <>
@@ -40,6 +76,13 @@ const SingUp = () => {
         <div className="mx-auto  my-8 flex flex-col items-center justify-center rounded-md bg-white px-3 shadow-md md:max-w-xl">
           <h1 className="my-4 text-2xl font-semibold text-gray-800">Sing Up</h1>
           <form className="my-4 w-full" onSubmit={handleSubmit(onSubmit)}>
+            {isError && (
+              <div className="mb-2 rounded-md bg-red-500">
+                <p className="py-2 text-center text-base text-white ">
+                  {error.message}
+                </p>
+              </div>
+            )}
             {/* Inputs */}
 
             <div className="relative w-full">
@@ -189,7 +232,10 @@ const SingUp = () => {
             </div>
 
             {/* Google Btn */}
-            <button className="mb-4 flex w-full justify-center rounded-md border py-2 text-lg font-medium text-gray-600 shadow-md shadow-gray-400">
+            <button
+              onClick={() => signIn("google", { callbackUrl: "/" })}
+              className="mb-4 flex w-full justify-center rounded-md border py-2 text-lg font-medium text-gray-600 shadow-md shadow-gray-400"
+            >
               <span className="mr-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

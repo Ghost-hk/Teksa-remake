@@ -22,7 +22,19 @@ export const singUpRouter = router({
           },
         });
       } catch (error) {
-        console.log(error);
+        const name = await ctx.prisma.user.findUnique({
+          where: { name: input.username },
+        });
+        const email = await ctx.prisma.user.findUnique({
+          where: { email: input.email },
+        });
+        const user = await ctx.prisma.user.findUnique({
+          where: { name_email: { name: input.username, email: input.email } },
+        });
+        if (user)
+          throw new Error("User with this Email and Username already Exists");
+        if (name) throw new Error("Username already taken");
+        if (email) throw new Error("Email already taken");
       }
     }),
 });
