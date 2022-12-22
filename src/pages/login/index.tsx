@@ -15,10 +15,6 @@ const Login = () => {
     signIn("google", { callbackUrl: "http://localhost:3000" });
   };
 
-  const instagramHandler = () => {
-    signIn("instagram", { callbackUrl: "https://localhost:3000" });
-  };
-
   return (
     <div className="w-full px-4">
       <Head>
@@ -93,13 +89,6 @@ const Login = () => {
             Login with Google
           </button>
 
-          {/* Instagram Btn */}
-          <button
-            onClick={instagramHandler}
-            className="instagram  flex w-full items-center justify-center  rounded-md bg-violet-600 px-6 py-2 text-lg font-medium  text-white shadow-md shadow-gray-400"
-          >
-            Login with Instagram
-          </button>
           <div className="mt-6">
             <p className="text-center text-gray-800">
               Don&apos;t have an acount?{" "}

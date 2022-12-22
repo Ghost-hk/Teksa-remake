@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Head from "next/head";
 import Link from "next/link";
+import { trpc } from "../../utils/trpc";
 // interface loginProps {}
 
 const formSchema = z.object({
@@ -15,6 +16,7 @@ const formSchema = z.object({
 type FormType = z.infer<typeof formSchema>;
 
 const SingUp = () => {
+  const { mutate } = trpc.singup.singUp.useMutation();
   const {
     register,
     handleSubmit,
@@ -25,6 +27,8 @@ const SingUp = () => {
 
   const onSubmit: SubmitHandler<FormType> = (data) => {
     console.log(data);
+    mutate(data);
+    console.log("mutate");
   };
 
   return (
@@ -102,7 +106,7 @@ const SingUp = () => {
             </div>
             <div className="relative w-full">
               <input
-                type="text"
+                type="password"
                 id="password"
                 className={`border-1 peer mt-4 w-full rounded-lg border-gray-600 text-gray-800  focus:outline-none focus:ring-1 ${
                   errors.password
@@ -134,7 +138,7 @@ const SingUp = () => {
             </div>
             <div className="relative w-full">
               <input
-                type="text"
+                type="password"
                 id="confirmpassword"
                 className={`border-1 peer mt-4 w-full rounded-lg border-gray-600 text-gray-800  focus:outline-none focus:ring-1 ${
                   errors.confirmpassword
@@ -221,11 +225,6 @@ const SingUp = () => {
                 </svg>
               </span>
               Sing Up with Google
-            </button>
-
-            {/* Instagram Btn */}
-            <button className="instagram  flex w-full items-center justify-center  rounded-md bg-violet-600 px-6 py-2 text-lg font-medium  text-white shadow-md shadow-gray-400">
-              Sing Up with Instagram
             </button>
 
             {/* Already have an acount? */}
