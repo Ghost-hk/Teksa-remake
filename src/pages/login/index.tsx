@@ -3,12 +3,58 @@ import Head from "next/head";
 import Link from "next/link";
 import Input from "../../Components/comps/Input";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { z } from "zod";
+import { useState } from "react";
+import router from "next/router";
 
 // interface loginProps {}
 
 const Login = () => {
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const valuesSchema = z.object({
+    email: z.string().email(),
+    password: z.string(),
+  });
+
+  type ValuesType = z.infer<typeof valuesSchema>;
+
+  const errSchema = z.object({
+    err: z.boolean(),
+    message: z.string(),
+  });
+
+  type ErrType = z.infer<typeof errSchema>;
+
+  const [values, setValues] = useState<ValuesType>({
+    email: "",
+    password: "",
+  });
+
+  const [err, setErr] = useState<ErrType>({
+    err: false,
+    message: "",
+  });
+
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const res = await signIn("credentials", {
+      redirect: false,
+      email: values.email,
+      password: values.password,
+      callbackUrl: "/",
+    });
+
+    console.log(res);
+
+    if (res?.error) {
+      setErr({ err: true, message: res.error });
+    } else if (res?.ok && res.error === null) {
+      router.push("/");
+    }
   };
 
   const googleHandler = () => {
@@ -24,13 +70,58 @@ const Login = () => {
       <div className="mx-auto  my-8 flex flex-col items-center justify-center rounded-md bg-white px-3 shadow-md md:max-w-xl">
         <h1 className="my-4 text-2xl font-semibold text-gray-800">Login</h1>
         <form onSubmit={submitHandler} className="my-4 w-full ">
-          <Input name="email" type="email" label="Email" additionalClasses="" />
-          <Input
-            name="password"
-            type="password"
-            label="Password"
-            additionalClasses="mt-4"
-          />
+          {err.err && (
+            <div
+              className="mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
+              role="alert"
+            >
+              <p className=" text-center ">{err.message}</p>
+            </div>
+          )}
+          {/* inputs */}
+          <div className="relative w-full">
+            <input
+              type="text"
+              id="email"
+              className={`border-1 peer w-full rounded-lg border-gray-600 text-gray-800 focus:border-violet-600 focus:outline-none focus:ring-1 focus:ring-violet-600 `}
+              placeholder="  "
+              name="email"
+              // value={formValues[name]}
+              onChange={changeHandler}
+            />
+            <label
+              htmlFor="email"
+              className={`absolute -top-2.5 left-1.5
+        bg-white px-2 text-sm text-gray-500
+          duration-300 
+          peer-placeholder-shown:top-2 peer-placeholder-shown:left-2 peer-placeholder-shown:text-base
+          peer-focus:-top-2.5 peer-focus:left-1.5 peer-focus:border-violet-600 peer-focus:px-2 peer-focus:text-sm peer-focus:text-violet-600 `}
+            >
+              Email
+            </label>
+          </div>
+          <div className="relative w-full">
+            <input
+              type="password"
+              id="password"
+              className={`border-1 peer mt-4 w-full rounded-lg border-gray-600 text-gray-800 focus:border-violet-600 focus:outline-none focus:ring-1 focus:ring-violet-600`}
+              placeholder="  "
+              name="password"
+              onChange={changeHandler}
+            />
+            <label
+              htmlFor="password"
+              className={`absolute -top-2.5 left-1.5
+        mt-4 bg-white px-2 text-sm
+          text-gray-500 
+          duration-300 peer-placeholder-shown:top-2 peer-placeholder-shown:left-2
+          peer-placeholder-shown:text-base peer-focus:-top-2.5 peer-focus:left-1.5 peer-focus:border-violet-600 peer-focus:px-2 peer-focus:text-sm peer-focus:text-violet-600`}
+            >
+              Password
+            </label>
+          </div>
+
+          {/* login btn */}
           <div className="mt-4 flex w-full justify-end">
             <button
               type="submit"
