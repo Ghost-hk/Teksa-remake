@@ -3,17 +3,21 @@ import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 
 import HomePageForNewUser from "../Components/HomePage/HomePageForNewUser";
+import HomepageForLoggedUser from "../Components/HomePage/HomePageForLoggedUser";
 
 const Home: NextPage = () => {
-  const { data } = useSession();
-
+  const { data, status } = useSession();
   return (
-    <div className="bg-white">
+    <div className="">
       <Head>
         <title>Teksa</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {data ? <HomePageForNewUser /> : null}
+      {status === "loading" ? null : data ? (
+        <HomepageForLoggedUser />
+      ) : (
+        <HomePageForNewUser />
+      )}
     </div>
   );
 };

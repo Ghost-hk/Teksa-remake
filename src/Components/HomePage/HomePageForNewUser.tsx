@@ -4,7 +4,7 @@ import { useState } from "react";
 const HomePageForNewUser = () => {
   const [seller, setSeller] = useState<boolean>(true);
   return (
-    <>
+    <div className="bg-white">
       {/* Hero */}
       <div className="h-[60vh] w-full">
         <div className="relative h-full">
@@ -184,7 +184,7 @@ const HomePageForNewUser = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

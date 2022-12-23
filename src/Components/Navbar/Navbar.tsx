@@ -38,8 +38,8 @@ const Navbar = () => {
     <>
       <nav
         className={`sticky ${
-          visible ? "top-0" : "-top-24"
-        } z-50 flex w-full justify-between bg-white px-3 py-6 drop-shadow-2xl transition-all duration-300 ease-in-out`}
+          visible ? "top-0 shadow-gray-600 drop-shadow-xl" : "-top-24"
+        } z-50 flex w-full justify-between bg-white px-3 py-6  transition-all duration-300 ease-in-out`}
       >
         {/* Menu */}
         <button
