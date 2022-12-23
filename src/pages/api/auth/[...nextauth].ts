@@ -1,4 +1,4 @@
-import NextAuth, { Awaitable, User, type NextAuthOptions } from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -10,18 +10,6 @@ import { prisma } from "../../../server/db/client";
 import { compare } from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
-  // Include user.id on session
-  // callbacks: {
-  //   session({ session, user }) {
-  //     if (session.user) {
-  //       session.user.id = user.id;
-  //     }
-  //     // strategy: 'jwt',
-  //     return session;
-  //   },
-  // },
-
-  // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -31,7 +19,7 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {},
-      authorize: async (credentials, req) => {
+      authorize: async (credentials) => {
         const { email, password } = credentials as {
           email: string;
           password: string;

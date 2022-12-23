@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Head from "next/head";
 import Link from "next/link";
 import { trpc } from "../../utils/trpc";
 import { useEffect } from "react";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 const formSchema = z.object({
   username: z.string().min(6).max(16),
@@ -65,7 +65,7 @@ const SingUp = () => {
         message: "Email already taken",
       });
     }
-  }, [error]);
+  }, [error, setError]);
 
   return (
     <>

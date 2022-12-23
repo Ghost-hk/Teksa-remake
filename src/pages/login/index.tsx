@@ -1,8 +1,7 @@
 // import { FC } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import Input from "../../Components/comps/Input";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { z } from "zod";
 import { useState } from "react";
 import router from "next/router";

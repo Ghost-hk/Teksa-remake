@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface SidebarProps {
@@ -13,7 +13,7 @@ const Sidebar: FC<SidebarProps> = ({ slidebarIsOpen, setSlidebarIsOpen }) => {
         <>
           <motion.div
             key="1"
-            onClick={() => setSlidebarIsOpen((prev: any) => !prev)}
+            onClick={() => setSlidebarIsOpen((prev) => !prev)}
             className="fixed top-0 z-40 h-full w-full bg-slate-300 opacity-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.4 }}
