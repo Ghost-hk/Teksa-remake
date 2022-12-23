@@ -13,7 +13,7 @@ const Navbar = () => {
   const [searchIsOpen, setSearchIsOpen] = useState<boolean>(false);
   return (
     <>
-      <nav className="sticky top-0 z-10 flex w-full justify-between bg-white px-3 py-6 drop-shadow-lg">
+      <nav className="sticky top-0 z-50 flex w-full justify-between bg-white px-3 py-6 drop-shadow-lg">
         {/* Menu */}
         <button
           className="md:hidden"

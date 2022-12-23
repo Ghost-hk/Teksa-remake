@@ -14,7 +14,7 @@ const Sidebar: FC<SidebarProps> = ({ slidebarIsOpen, setSlidebarIsOpen }) => {
           <motion.div
             key="1"
             onClick={() => setSlidebarIsOpen((prev: any) => !prev)}
-            className="absolute h-full w-full bg-slate-300 opacity-50"
+            className="fixed top-0 z-40 h-full w-full bg-slate-300 opacity-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.4 }}
             exit={{ opacity: 0 }}
@@ -26,7 +26,7 @@ const Sidebar: FC<SidebarProps> = ({ slidebarIsOpen, setSlidebarIsOpen }) => {
             animate={{ translateX: "0" }}
             exit={{ translateX: "-100%" }}
             transition={{ duration: 0.3 }}
-            className="fixed top-[84px] left-0 h-full w-1/3 bg-white"
+            className="fixed top-[84px] left-0 z-40 h-full w-1/3 bg-white"
           >
             Sidebar
           </motion.div>

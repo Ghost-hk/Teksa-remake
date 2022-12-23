@@ -16,7 +16,7 @@ const Search: FC<SearchProps> = ({ searchIsOpen, setSearchIsOpen }) => {
           animate={{ translateY: "0", opacity: 1 }}
           exit={{ translateY: "-100%", opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="absolute top-[84px] left-0 h-8 w-full bg-red-300"
+          className="absolute top-[84px] left-0 z-30 h-8 w-full bg-red-300"
         >
           Search
         </motion.div>
