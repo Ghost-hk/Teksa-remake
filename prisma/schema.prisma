@@ -10,8 +10,8 @@ datasource db {
 
 // Necessary for Next auth
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
+  id                Int     @id @default(autoincrement())
+  userId            Int
   type              String
   provider          String
   providerAccountId String
@@ -29,9 +29,9 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           Int      @id @default(autoincrement())
   sessionToken String   @unique
-  userId       String
+  userId       Int
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -39,33 +39,74 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?   @unique
-  email         String?   @unique
-  emailVerified DateTime?
+  id            Int      @id @default(autoincrement())
+  name          String?  @unique
+  email         String?  @unique
+  phone         String?  @unique
+  instagram     String?  @unique
+  facebook      String?  @unique
   password      String?
   image         String?
-  accounts      Account[]
-  sessions      Session[]
-  profile       Profile?
+  location      String?
+  size          String?
+  sexe          String?
+  showPhone     Boolean?
+  showInstagam  Boolean?
+  showFacebook  Boolean?
+  showEmail     Boolean?
+  phoneVerified Boolean?
+  emailVerified Boolean?
+
+  accounts Account[]
+  sessions Session[]
+  posts    Post[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([name, email])
 }
 
-model Profile {
-  id     String @id @default(cuid())
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id])
+model Post {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String?
+  price       Int
+  sexe        String
+  size        String
 
-  location     String?
-  phone        String?
-  size         String?
-  sexe         String?
-  instagram    String?
-  showPhone    Boolean?
-  showInstagam Boolean?
+  images   Images[]
+  category Category[] @relation("CategoryRelationTable")
+  brand    Brand[]    @relation("BrandRelationTable")
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([userId])
+}
+
+model Images {
+  id       Int    @id @default(autoincrement())
+  imageUrl String @unique
+  postId   Int
+  post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+}
+
+model Brand {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  Post Post[] @relation("BrandRelationTable")
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  Post Post[] @relation("CategoryRelationTable")
 }
 
 model VerificationToken {

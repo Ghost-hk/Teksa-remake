@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "teksa-366021",
+  "private_key_id": "8778d38b0c62fe5349c4b4468feac12432b73beb",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDpojbuMe4V/2HI\nAw+jxFDWRRiShfUFIqfVDKRSGGKHGofYhAIuZKVfvk9p8JwrPWG1i70wnywVkIcC\njj0AU18BUpz8Jk3aBxd31ezP/pg25t4Osl6zDDDZSddBfxFj4XOS4tok/d1Y+V1v\npadl/LydPoI5cCxBcYhGuVCgYvr/k3rgmRemRcBFwTnOx17+3yqqkKPcKM1Medgj\nxOIRbQWR5IIJ6XYtJWi7UHW/iFisaoCmruGEqMhXVO/xJ0xAvRtu6Z83GFYpPwAn\nBn1cY6NftCBaSsZGjYEmLXLsBW6tnVwn38Emc1LQMhtvNqDNXX4AXaxdY4rgOVsM\n3HEGwOSdAgMBAAECggEADYu36xoOf4yBxxa0WK6ocC/r44zsPpq6h932hgL/bW1i\nnHFU7gssUm+Gi7IlX9VsfZnnQ3MrG2n4hfOowkTTMJCxZOY0o9Q+7lYDJ7EPcrly\nfQAnAPMPPv3qwtOi9rtK1+SauMPWSlMU8YT1fnKHngdShhGEo1u5hr42WEI84sX2\nIAf1K5j80Luyhx6n+WS3a5JL+FOTa3E/SIXs1dYZE6C357uYGPdm7FL1pCzdd9Pq\nbkq3a5F/M7y8rqdLnMXLxIShTMzjLSMVyLf4B1VRYrDtS803YsYT2CvkXsWJlIG0\ndiiNAWEkIqNcoeQ+JjRUINYLrnpHYkOcBqrd09AQSQKBgQD4+lu5lA69RoCWbANs\nVpDE4J4Ldmk0JYP2fF05JBhD17j4mXrIfp9bIRl50jt0mr+z5cWQA5z+LxJ3xjii\n8YbIQCdZuASRcDERapQ0CMdNHs4damXhknxWSQ7bD3nGhj2aD/xEoeIbipGLL0rQ\ngFHNbs9FxXoiC+VwKtPE9oW6uQKBgQDwORGt8B0UOsraVzcmLXBiB79jno64MWir\nats7DtqDup8uHlr7uqaaBqAny2CwWOv7g1+LH1PLBHAv842ktOaewPtQmct2TJmm\n/0wE0l2/6Q6SH2hxbdmk7TSnrt96ihb7FUbvPd3NDoQyuBbLeHO91HZughXrKMe2\nPv+x7fq3BQKBgQDVsUOyxxHTgERzVqelf7LnV4YufmYTPLPDhcAZgBJXgDqhHFHW\n7V7mv0T3WupuzTcGN4rWbVN8kng+VuJbcANnsjBT/+3jyjBDK3+iHXq5hVwQwTZK\nYgjXogLfH6w8KRGMPnYdjffb/ZWnqWKEC+6p7JZ34uNNf3pgSFHUNmZW+QKBgHfP\nHsAvl3E1eWK4SOsjkn9x+cSHmgrHqbqEyt6Do/w7IZTw0tPl3Z3IXCw8xPZvAxMo\nDIjokPQaPJHN2QEisDrRaQZkDhPsVF3zykhFWziR1hCO1Zps/TXCkJZpI1CMerWz\ngPNlWbAh41Ege03zv1YYFxE6lA/7ANAmT4TAemC5AoGBALMCfxqTF3Etm2gIsn0x\ngrGhch1wWs4fnNZm1dsZzeh8+x13HM9JkOVB+s/H/66F9O2qdX7dT8HuOVmfL00K\naVMAHSPwYfm2tCG5BpVO+/H0shulilNgc0l1WbJbEe+PnUM9qQhAP8pRkHhoxu2n\ns8NyhGpfEtJU4yv7ryMOEQUL\n-----END PRIVATE KEY-----\n",
+  "client_email": "teksa-52@teksa-366021.iam.gserviceaccount.com",
+  "client_id": "111938540241535212200",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/teksa-52%40teksa-366021.iam.gserviceaccount.com"
+}
