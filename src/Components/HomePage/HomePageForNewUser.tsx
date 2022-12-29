@@ -23,7 +23,7 @@ const HomePageForNewUser = () => {
             <h1 className="mb-1 text-xl font-semibold text-white md:text-xl xl:text-2xl">
               Sell <span className="text-violet-600">&</span> Buy,
               <br />
-              Change you <span className="text-violet-600">Style</span>.
+              Change your <span className="text-violet-600">Style</span>.
             </h1>
             <p className="w-2/3 text-sm text-white xl:text-base">
               Discover new look, fashion by keeping your wallet full and your

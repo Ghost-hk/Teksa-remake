@@ -13,5 +13,12 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+
+  images: {
+    //
+    domains: ["teksa-images.s3.eu-west-2.amazonaws.com"],
+  },
 };
+
+//https://teksa-images.s3.eu-west-2.amazonaws.com/balckHoodie.jpeg
 export default config;
