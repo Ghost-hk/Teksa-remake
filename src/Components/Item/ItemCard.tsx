@@ -1,23 +1,28 @@
 import { FC } from "react";
 import Image from "next/image";
-import type { Brand, Category, Images, User } from "@prisma/client";
+import type { Post, Brand, Category, Images, User } from "@prisma/client";
 
 interface ItemProps {
-  item: {
-    brand: Brand[];
-    category?: Category[];
-    createdAt: Date;
-    description: string | null;
-    id: number;
-    images: Images[];
-    price: number;
-    sexe: string;
-    size: string;
-    title: string;
-    updatedAt: Date;
-    userId: number;
+  // item: {
+  //   brand: Brand[];
+  //   category?: Category[];
+  //   createdAt: Date;
+  //   description: string | null;
+  //   id: number;
+  //   images: Images[];
+  //   price: number;
+  //   sexe: string;
+  //   size: string;
+  //   title: string;
+  //   updatedAt: Date;
+  //   userId: number;
+  //   user: User;
+  // };
+  item: Post & {
     user: User;
-  };
+    images: Images[];
+    brand: Brand[];
+  }
 }
 
 const ItemCard: FC<ItemProps> = ({ item }) => {
@@ -50,9 +55,8 @@ const ItemCard: FC<ItemProps> = ({ item }) => {
         </p>
         <div className="flex items-center">
           <div
-            className={`relative mr-2 h-6 w-6 rounded-full bg-gray-400 ${
-              !item.user.image && "flex items-center justify-center"
-            }`}
+            className={`relative mr-2 h-6 w-6 rounded-full bg-gray-400 ${!item.user.image && "flex items-center justify-center"
+              }`}
           >
             {item.user.image ? (
               <Image src={item.user.image} fill alt="profile Img" />

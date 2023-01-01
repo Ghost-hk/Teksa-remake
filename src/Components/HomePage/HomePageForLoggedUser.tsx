@@ -155,7 +155,7 @@ const HomePageForLoggedUser = () => {
 
         {false ? null : ( // add logic for liked items
           <div className="flex justify-center">
-            <div className="inline-block rounded-md border border-slate-400">
+            <div className="inline-block rounded-md border border-slate-400 bg-white shadow-md">
               <p className="py-3 px-5 text-center text-sm text-gray-600 md:text-base">
                 No liked Items yet, Like items to save them for later.
                 <Link href="#" className="block text-violet-600 underline">
@@ -179,8 +179,8 @@ const HomePageForLoggedUser = () => {
         </div>
 
         {false ? null : ( // add logic for liked items
-          <div className="flex justify-center">
-            <div className="inline-block rounded-md border border-slate-400">
+          <div className="flex justify-center ">
+            <div className="inline-block rounded-md border border-slate-400 bg-white shadow-md">
               <p className="py-3 px-5 text-center text-sm text-gray-600 md:text-base">
                 No viewed Items yet, What are you waiting for?
                 <Link href="#" className="block text-violet-600 underline">

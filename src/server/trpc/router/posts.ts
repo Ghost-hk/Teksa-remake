@@ -6,7 +6,7 @@ export const postsRouter = router({
     .input(
       z.object({
         numberOfPosts: z.number().default(8),
-        userId: z.number(),
+        userId: z.string(),
       })
     )
     .query(async ({ input, ctx }) => {
@@ -28,7 +28,7 @@ export const postsRouter = router({
   getpostByItemId: publicProcedure
     .input(
       z.object({
-        ItemId: z.number(),
+        ItemId: z.string(),
       })
     )
     .query(async ({ input, ctx }) => {

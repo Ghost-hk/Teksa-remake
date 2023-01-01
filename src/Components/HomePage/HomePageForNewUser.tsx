@@ -87,9 +87,8 @@ const HomePageForNewUser = () => {
           {/* Seller or Buyer */}
           <div className="mt-3 flex">
             <div
-              className={`bor w-full border-b-2 ${
-                seller ? "border-violet-600" : "border-gray-600"
-              } cursor-pointer`}
+              className={`bor w-full border-b-2 ${seller ? "border-violet-600" : "border-gray-600"
+                } cursor-pointer`}
               onClick={() => setSeller((prev) => !prev)}
             >
               <h3 className="text-center font-semibold text-gray-800">
@@ -97,9 +96,8 @@ const HomePageForNewUser = () => {
               </h3>
             </div>
             <div
-              className={`bor w-full border-b-2 ${
-                !seller ? "border-violet-600" : "border-gray-600"
-              } cursor-pointer`}
+              className={`bor w-full border-b-2 ${!seller ? "border-violet-600" : "border-gray-600"
+                } cursor-pointer`}
               onClick={() => setSeller((prev) => !prev)}
             >
               <h3 className="text-center font-semibold text-gray-800">

@@ -10,8 +10,8 @@ datasource db {
 
 // Necessary for Next auth
 model Account {
-  id                Int     @id @default(autoincrement())
-  userId            Int
+  id                String  @id @default(cuid())
+  userId            String
   type              String
   provider          String
   providerAccountId String
@@ -29,9 +29,9 @@ model Account {
 }
 
 model Session {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       Int
+  userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -39,7 +39,7 @@ model Session {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
+  id            String   @id @default(cuid())
   name          String?  @unique
   email         String?  @unique
   phone         String?  @unique
@@ -71,7 +71,7 @@ model User {
 }
 
 model Post {
-  id          Int     @id @default(autoincrement())
+  id          String  @id @default(cuid())
   title       String
   description String? @db.LongText()
   price       Int
@@ -82,8 +82,8 @@ model Post {
   category Category[] @relation("CategoryRelationTable")
   brand    Brand[]    @relation("BrandRelationTable")
 
-  userId Int
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -92,22 +92,22 @@ model Post {
 }
 
 model Images {
-  id       Int    @id @default(autoincrement())
+  id       String @id @default(cuid())
   imageUrl String @unique
-  postId   Int
+  postId   String
   post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@index([postId])
 }
 
 model Brand {
-  id   Int    @id @default(autoincrement())
+  id   String @id @default(cuid())
   name String @unique
   Post Post[] @relation("BrandRelationTable")
 }
 
 model Category {
-  id   Int    @id @default(autoincrement())
+  id   String @id @default(cuid())
   name String @unique
   Post Post[] @relation("CategoryRelationTable")
 }

@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import { useState, useEffect, type FC } from "react";
-import type { Post, Brand, Category, Images, User } from "@prisma/client";
+import { useState } from "react";
+
 import { trpc } from "../../utils/trpc";
 import Image from "next/image";
 import moment from "moment";
@@ -16,7 +16,7 @@ const ItemPage = () => {
   }
 
   const { data, isLoading } = trpc.posts.getpostByItemId.useQuery({
-    ItemId: +id,
+    ItemId: id as string,
   });
 
   console.log(data?.user.posts.length);
@@ -35,9 +35,8 @@ const ItemPage = () => {
             <div className="md:hidden ">
               <div className="mb-4  flex items-center">
                 <div
-                  className={`relative mr-2 h-8 w-8 rounded-full bg-red-400 ${
-                    !data.user.image && "flex items-center justify-center"
-                  }`}
+                  className={`relative mr-2 h-8 w-8 rounded-full bg-red-400 ${!data.user.image && "flex items-center justify-center"
+                    }`}
                 >
                   {data.user.image ? (
                     <Image
@@ -80,11 +79,10 @@ const ItemPage = () => {
                   return (
                     <div
                       key={image.id}
-                      className={`relative h-20 w-20 cursor-pointer ${
-                        index === currImageIndex
-                          ? "border-4 border-violet-600"
-                          : "border-2 border-gray-600"
-                      }`}
+                      className={`relative h-20 w-20 cursor-pointer ${index === currImageIndex
+                        ? "border-4 border-violet-600"
+                        : "border-2 border-gray-600"
+                        }`}
                       onClick={() => setCurrImageIndex(index)}
                     >
                       <Image
@@ -203,10 +201,9 @@ const ItemPage = () => {
                       className="cursor-pointer text-violet-600 underline"
                       onClick={() => {
                         router.push(
-                          `https://wa.me/${
-                            data.user.useSameNumber
-                              ? data.user.phone
-                              : data.user.whatsapp
+                          `https://wa.me/${data.user.useSameNumber
+                            ? data.user.phone
+                            : data.user.whatsapp
                           }`
                         );
                       }}
@@ -249,9 +246,8 @@ const ItemPage = () => {
             <div className="mt-4 hidden w-full rounded-md bg-white px-2 py-3 shadow-md lg:block">
               <div className="mb-4  flex flex-col items-center">
                 <div
-                  className={`relative mr-2 h-16 w-16 rounded-full bg-red-400 ${
-                    !data.user.image && "flex items-center justify-center"
-                  }`}
+                  className={`relative mr-2 h-16 w-16 rounded-full bg-red-400 ${!data.user.image && "flex items-center justify-center"
+                    }`}
                 >
                   {data.user.image ? (
                     <Image

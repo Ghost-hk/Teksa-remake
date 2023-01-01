@@ -12,24 +12,27 @@ export default function App() {
 
     if (!file) return;
 
-    const fileType = encodeURIComponent(file.type);
-    console.log(fileType);
-    const res = await mutateAsync({ fileType });
-    console.log(res);
-    if (res) {
-      const { s3UploadUrl, Key } = res;
-      await fetch(s3UploadUrl, {
-        method: "PUT",
-        body: file,
-        headers: {
-          "Content-Type": `image/${fileType}`,
-        },
-      });
-      console.log("success");
-      return Key;
-    } else {
-      console.log("error, no data");
+    else if (file instanceof File) {
+      const fileType = encodeURIComponent(file.type);
+
+      const res = await mutateAsync({ fileType });
+      console.log(res);
+      if (res) {
+        const { s3UploadUrl, Key } = res;
+        await fetch(s3UploadUrl, {
+          method: "PUT",
+          body: file,
+          headers: {
+            "Content-Type": `image/${fileType}`,
+          },
+        });
+        console.log("success");
+        return Key;
+      } else {
+        console.log("error, no data");
+      }
     }
+
   };
   const handelSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
