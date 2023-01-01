@@ -24,6 +24,7 @@
     "aws-sdk": "^2.1282.0",
     "bcrypt": "^5.1.0",
     "framer-motion": "^7.10.2",
+    "moment": "^2.29.4",
     "next": "13.0.2",
     "next-auth": "^4.18.3",
     "react": "18.2.0",

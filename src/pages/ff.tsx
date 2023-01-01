@@ -1,6 +1,6 @@
 import { FormEvent } from "react";
+import Image from "next/image";
 
-//import tRPC
 import { trpc } from "../utils/trpc";
 
 export default function App() {
@@ -12,7 +12,6 @@ export default function App() {
 
     if (!file) return;
 
-    // @ts-ignore
     const fileType = encodeURIComponent(file.type);
     console.log(fileType);
     const res = await mutateAsync({ fileType });
@@ -43,9 +42,10 @@ export default function App() {
         <input type="file" accept="image/jpeg image/png" name="file" />
         <button type="submit">upload</button>
       </form>
-      <img
+      <Image
         src="https://teksa-images.s3.eu-west-2.amazonaws.com/balckHoodie.jpeg"
-        alt=""
+        fill
+        alt="profile Img"
       />
     </div>
   );

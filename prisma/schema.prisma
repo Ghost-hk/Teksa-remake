@@ -43,6 +43,7 @@ model User {
   name          String?  @unique
   email         String?  @unique
   phone         String?  @unique
+  whatsapp      String?  @unique
   instagram     String?  @unique
   facebook      String?  @unique
   password      String?
@@ -51,6 +52,8 @@ model User {
   size          String?
   sexe          String?
   showPhone     Boolean?
+  showWhatsapp  Boolean?
+  useSameNumber Boolean?
   showInstagam  Boolean?
   showFacebook  Boolean?
   showEmail     Boolean?
@@ -70,7 +73,7 @@ model User {
 model Post {
   id          Int     @id @default(autoincrement())
   title       String
-  description String?
+  description String? @db.LongText()
   price       Int
   sexe        String
   size        String

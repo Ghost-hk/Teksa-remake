@@ -16,7 +16,10 @@ const config = {
 
   images: {
     //
-    domains: ["teksa-images.s3.eu-west-2.amazonaws.com"],
+    domains: [
+      "teksa-images.s3.eu-west-2.amazonaws.com",
+      "lh3.googleusercontent.com",
+    ],
   },
 };
 

@@ -1,10 +1,11 @@
 import { FC } from "react";
 import Image from "next/image";
-import { Brand, Category, Images, User } from "@prisma/client";
+import type { Brand, Category, Images, User } from "@prisma/client";
 
 interface ItemProps {
   item: {
     brand: Brand[];
+    category?: Category[];
     createdAt: Date;
     description: string | null;
     id: number;

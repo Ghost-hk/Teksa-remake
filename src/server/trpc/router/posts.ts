@@ -39,10 +39,21 @@ export const postsRouter = router({
         include: {
           images: true,
           brand: true,
-          user: true,
+          user: {
+            include: {
+              posts: true,
+            },
+          },
           category: true,
         },
       });
+
+      // const user = await ctx.prisma.user.findUniqueOrThrow({
+      //   where: { id: posts.userId },
+      //   include: {
+      //     posts: true,
+      //   },
+      // });
 
       return posts;
     }),
