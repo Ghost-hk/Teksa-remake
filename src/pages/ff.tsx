@@ -1,4 +1,4 @@
-import { FormEvent } from "react";
+import type { FormEvent } from "react";
 import Image from "next/image";
 
 import { trpc } from "../utils/trpc";
@@ -11,7 +11,6 @@ export default function App() {
     const file = formData.get("file");
 
     if (!file) return;
-
     else if (file instanceof File) {
       const fileType = encodeURIComponent(file.type);
 
@@ -32,7 +31,6 @@ export default function App() {
         console.log("error, no data");
       }
     }
-
   };
   const handelSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

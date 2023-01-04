@@ -9,23 +9,6 @@ import { Input, InputWithChoice } from "../../Components/Form/Input";
 
 import { formSchema } from "../../utils/TypeSchemas";
 
-// export const formSchema = z.object({
-//   title: z.string().min(8).max(100),
-//   description: z.string().min(8).max(255).optional(),
-//   price: z.number(),
-//   sexe: z.enum(["Male", "Female"]),
-//   size: z.string(),
-//   images: z
-//     .array(z.string())
-//     .nonempty({
-//       message: "Each item must have at least one image",
-//     })
-//     .max(5),
-//   category: z.string(),
-//   brand: z.string(),
-//   userEmail: z.string(),
-// });
-
 const AddItem = () => {
   type FormType = z.infer<typeof formSchema>;
 
@@ -49,24 +32,25 @@ const AddItem = () => {
       if (!files) return;
 
       files.map(async (file, ind) => {
-        //@ts-ignore
-        const fileType = encodeURIComponent(file.type);
+        if (file instanceof File) {
+          const fileType = encodeURIComponent(file.type);
 
-        const res = await mutateAsync({ fileType });
-        if (res) {
-          const { s3UploadUrl, Key } = res;
-          setValue(`images.${ind}`, Key);
-          await fetch(s3UploadUrl, {
-            method: "PUT",
-            body: file,
-            headers: {
-              "Content-Type": `image/${fileType}`,
-            },
-          });
+          const res = await mutateAsync({ fileType });
+          if (res) {
+            const { s3UploadUrl, Key } = res;
+            setValue(`images.${ind}`, Key);
+            await fetch(s3UploadUrl, {
+              method: "PUT",
+              body: file,
+              headers: {
+                "Content-Type": `image/${fileType}`,
+              },
+            });
 
-          resolve(Key);
-        } else {
-          reject("error, no data added to s3");
+            resolve(Key);
+          } else {
+            reject("error, no data added to s3");
+          }
         }
       });
     });
@@ -85,11 +69,11 @@ const AddItem = () => {
       try {
         const data = formSchema.parse(getValues());
         console.log(data);
-      } catch (err: any) {
+      } catch (err) {
         if (err instanceof z.ZodError) {
           console.log(err.flatten());
         } else {
-          throw new Error("Something went wrong", err);
+          throw new Error("Something went wrong", err as ErrorOptions);
         }
       }
 
@@ -136,6 +120,14 @@ const AddItem = () => {
             label="Price"
             addtionnalClass="mb-4"
             type="number"
+            register={register}
+          />
+
+          <Input
+            name="size"
+            id="size"
+            label="Size"
+            addtionnalClass="mb-4"
             register={register}
           />
 

@@ -137,7 +137,7 @@ export const postsRouter = router({
           },
         });
 
-        input.images.map(async (image, ind) => {
+        input.images.map(async (image) => {
           return await ctx.prisma.images.create({
             data: {
               imageUrl: `https://teksa-images.s3.eu-west-2.amazonaws.com/${image}`,

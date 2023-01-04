@@ -1,6 +1,6 @@
-import { FC } from "react";
+import type { FC } from "react";
 import Image from "next/image";
-import type { Post, Brand, Category, Images, User } from "@prisma/client";
+import type { Post, Brand, Images, User } from "@prisma/client";
 
 interface ItemProps {
   // item: {

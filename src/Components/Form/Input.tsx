@@ -1,13 +1,30 @@
-import { Category } from "@prisma/client";
-import { FC } from "react";
+import type { Brand, Category } from "@prisma/client";
+import type { FC } from "react";
+import type {
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
+} from "react-hook-form/dist/types";
+
+interface UseFormWatchInterface {
+  description?: string | undefined;
+  images: [string, ...string[]];
+  brand: string;
+  category: string;
+  size: string;
+  sexe: "Male" | "Female";
+  title: string;
+  price: number;
+  userEmail: string;
+}
 
 interface InputProps {
-  name: string;
+  name: "title" | "description" | "price" | "size";
   id: string;
   type?: string;
   label: string;
   addtionnalClass?: string;
-  register: any;
+  register: UseFormRegister<UseFormWatchInterface>;
 }
 
 export const Input: FC<InputProps> = ({
@@ -21,7 +38,7 @@ export const Input: FC<InputProps> = ({
   return (
     <div className="relative w-full">
       <input
-        name={name}
+        // name={name}
         type={type ? type : "text"}
         id={id}
         className={`border-1 peer w-full rounded-lg border-gray-600 text-gray-800 focus:border-violet-600 focus:outline-none focus:ring-1 focus:ring-violet-600 ${addtionnalClass}`}
@@ -43,14 +60,14 @@ export const Input: FC<InputProps> = ({
 };
 
 interface InputWithChoiceProps {
-  data: any;
-  name: string;
+  data: Brand[] | Category[] | undefined | null;
+  name: "category" | "brand";
   id: string;
   label: string;
   addtionnalClass?: string;
-  register: any;
-  watch: any;
-  setValue: any;
+  register: UseFormRegister<UseFormWatchInterface>;
+  watch: UseFormWatch<UseFormWatchInterface>;
+  setValue: UseFormSetValue<UseFormWatchInterface>;
 }
 
 export const InputWithChoice: FC<InputWithChoiceProps> = ({
@@ -67,7 +84,7 @@ export const InputWithChoice: FC<InputWithChoiceProps> = ({
     <div className="relative">
       <div className="relative w-full">
         <input
-          name={name}
+          // name={name}
           type="text"
           id={id}
           autoComplete="off"

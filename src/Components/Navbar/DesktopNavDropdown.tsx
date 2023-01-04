@@ -28,8 +28,8 @@ export const DesktopNavbarComponents: FC<DesktopNavbarComponentsProps> = ({
   }, [visible]);
 
   useEffect(() => {
-    const handelClose = (e: any) => {
-      if (!dropdown.current?.contains(e.target)) {
+    const handelClose = (e: MouseEvent) => {
+      if (!dropdown.current?.contains(e.target as Node)) {
         setOpen(false);
       }
     };
