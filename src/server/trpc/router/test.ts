@@ -18,7 +18,7 @@ export const testRout = router({
       })
     )
     .mutation(async ({ input }) => {
-      const extension = input.fileType.split("%2F")[1];
+      const extension = input.fileType;
       const Key = `${randomUUID()}.${extension}`;
 
       const s3Params = {
