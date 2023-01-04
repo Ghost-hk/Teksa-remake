@@ -70,7 +70,7 @@ const SingUp = () => {
   return (
     <>
       <Head>
-        <title>Sing Up</title>
+        <title>Sign Up</title>
       </Head>
       <div className="w-full px-4">
         <div className="mx-auto  my-8 flex flex-col items-center justify-center rounded-md bg-white px-3 shadow-md md:max-w-xl">
@@ -277,7 +277,7 @@ const SingUp = () => {
             <div className="mt-6">
               <p className="text-center text-gray-800">
                 Already have an acount?{" "}
-                <Link href="/login" className="text-violet-600 underline">
+                <Link href="/signin" className="text-violet-600 underline">
                   Login
                 </Link>
               </p>

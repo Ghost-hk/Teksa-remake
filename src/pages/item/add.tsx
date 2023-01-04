@@ -40,7 +40,7 @@ const AddItem = () => {
   });
 
   if (status === "unauthenticated") {
-    return router.push("/login");
+    return router.push("/signin");
   }
 
   const handelImgSelection = (e: ChangeEvent<HTMLInputElement>) => {

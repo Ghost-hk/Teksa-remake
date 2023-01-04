@@ -63,7 +63,7 @@ const Login = () => {
   return (
     <div className="w-full px-4">
       <Head>
-        <title>Login</title>
+        <title>Sign In</title>
       </Head>
 
       <div className="mx-auto  my-8 flex flex-col items-center justify-center rounded-md bg-white px-3 shadow-md md:max-w-xl">
@@ -182,7 +182,7 @@ const Login = () => {
           <div className="mt-6">
             <p className="text-center text-gray-800">
               Don&apos;t have an acount?{" "}
-              <Link href="/singup" className="text-violet-600 underline">
+              <Link href="/signup" className="text-violet-600 underline">
                 Sing up
               </Link>
             </p>
