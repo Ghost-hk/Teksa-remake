@@ -22,7 +22,7 @@ interface ItemProps {
     user: User;
     images: Images[];
     brand: Brand[];
-  }
+  };
 }
 
 const ItemCard: FC<ItemProps> = ({ item }) => {
@@ -55,8 +55,9 @@ const ItemCard: FC<ItemProps> = ({ item }) => {
         </p>
         <div className="flex items-center">
           <div
-            className={`relative mr-2 h-6 w-6 rounded-full bg-gray-400 ${!item.user.image && "flex items-center justify-center"
-              }`}
+            className={`relative mr-2 h-7 w-7 overflow-hidden rounded-full bg-gray-400 ${
+              !item.user.image && "flex items-center justify-center"
+            }`}
           >
             {item.user.image ? (
               <Image src={item.user.image} fill alt="profile Img" />

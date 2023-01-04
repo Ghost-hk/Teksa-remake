@@ -1,5 +1,25 @@
 import { z } from "zod";
-import { publicProcedure, router } from "../trpc";
+import { protectedProcedure, publicProcedure, router } from "../trpc";
+
+// export const formSchema = z.object({
+//   title: z.string().min(8).max(100),
+//   description: z.string().min(8).max(255).optional(),
+//   price: z.number(),
+//   sexe: z.enum(["Male", "Female"]),
+//   size: z.string(),
+//   images: z
+//     .array(z.string())
+//     .nonempty({
+//       message: "Each item must have at least one image",
+//     })
+//     .max(5),
+//   category: z.string(),
+//   brand: z.string(),
+//   userEmail: z.string(),
+// });
+
+// import { formSchema } from "../../../pages/item/add";
+import { formSchema } from "../../../utils/TypeSchemas";
 
 export const postsRouter = router({
   getpostsByUserId: publicProcedure
@@ -79,4 +99,73 @@ export const postsRouter = router({
 
       return posts;
     }),
+
+  createPost: protectedProcedure
+    .input(formSchema)
+    .mutation(async ({ ctx, input }) => {
+      const { userEmail } = input;
+
+      const user = await ctx.prisma.user.findUnique({
+        where: { email: userEmail },
+      });
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      try {
+        const post = await ctx.prisma.post.create({
+          data: {
+            title: input.title,
+            description: input.description,
+            price: input.price,
+            size: input.size,
+            sexe: input.sexe,
+            brand: {
+              connectOrCreate: {
+                where: { name: input.brand },
+                create: { name: input.brand },
+              },
+            },
+            category: {
+              connectOrCreate: {
+                where: { name: input.category },
+                create: { name: input.category },
+              },
+            },
+            userId: user.id,
+          },
+        });
+
+        input.images.map(async (image, ind) => {
+          return await ctx.prisma.images.create({
+            data: {
+              imageUrl: `https://teksa-images.s3.eu-west-2.amazonaws.com/${image}`,
+              postId: post.id,
+            },
+          });
+        });
+
+        return post;
+      } catch (e) {
+        console.log("Post or Image couldnt be created ", e);
+      }
+
+      // const images = await ctx.prisma.images.create({
+      //   data: input.images.map((image, ind) => ({
+      //     name: input.images[ind],
+      //     postId: post.id,
+      //   })),
+      // });
+    }),
+
+  getAllCategories: publicProcedure.query(async ({ ctx }) => {
+    const categories = await ctx.prisma.category.findMany({});
+    return categories;
+  }),
+
+  getAllBrands: publicProcedure.query(async ({ ctx }) => {
+    const brands = await ctx.prisma.brand.findMany({});
+    return brands;
+  }),
 });

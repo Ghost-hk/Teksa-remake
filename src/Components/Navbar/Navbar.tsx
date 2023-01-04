@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import Search from "./Search";
 import Sidebar from "./Sidebar";
+import { DesktopNavbarComponents } from "./DesktopNavDropdown";
 
 import { debounce } from "../../utils/debounce";
 
@@ -20,14 +21,13 @@ const Navbar = () => {
 
   const { data, status } = useSession();
 
-
   const handleScroll = debounce(() => {
     const currentScrollPos = window.pageYOffset;
 
     setVisible(
       (prevScrollPos > currentScrollPos &&
         prevScrollPos - currentScrollPos > 20) ||
-      currentScrollPos < 10
+        currentScrollPos < 10
     );
 
     setPrevScrollPos(currentScrollPos);
@@ -42,8 +42,9 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`sticky ${visible ? "top-0 shadow-gray-600 drop-shadow-xl" : "-top-24"
-          } z-50 flex w-full justify-between bg-white px-3 py-6  transition-all duration-300 ease-in-out`}
+        className={`sticky ${
+          visible ? "top-0 shadow-gray-600 drop-shadow-xl" : "-top-28"
+        } z-50 flex w-full justify-between bg-white px-3 py-6  transition-all duration-300 ease-in-out md:px-10`}
       >
         {/* Menu Hidden in desktop */}
         <button
@@ -65,7 +66,13 @@ const Navbar = () => {
           <span className="text-3xl font-semibold text-violet-600">Teksa</span>
         </Link>
 
-        <button>{status === "loading" ? null : !data ? "loging" : "logout"}</button>
+        <DesktopNavbarComponents
+          visible={visible}
+          data={data}
+          status={status}
+        />
+
+        {/* <button onClick={()=>status === "loading" ? null : !data ? "loging" : "logout" }>{status === "loading" ? null : !data ? "loging" : "logout"}</button> */}
 
         {/* Search Hidden in desktop */}
         <button
