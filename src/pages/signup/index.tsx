@@ -1,10 +1,13 @@
 import { z } from "zod";
-import { type SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Head from "next/head";
-import Link from "next/link";
 import { trpc } from "../../utils/trpc";
 import { useEffect } from "react";
+
+import { type SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import Head from "next/head";
+import Link from "next/link";
+
 import { signIn } from "next-auth/react";
 
 const formSchema = z.object({
@@ -17,7 +20,8 @@ const formSchema = z.object({
 type FormType = z.infer<typeof formSchema>;
 
 const SingUp = () => {
-  const { mutate, isError, error } = trpc.singup.singUp.useMutation();
+  const { mutate, isError, error, isSuccess } =
+    trpc.singup.singUp.useMutation();
   const {
     register,
     handleSubmit,
@@ -36,6 +40,15 @@ const SingUp = () => {
     }
 
     mutate(data);
+
+    if (isSuccess) {
+      await signIn("credentials", {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+        callbackUrl: "/",
+      });
+    }
 
     if (isError) {
       return;
