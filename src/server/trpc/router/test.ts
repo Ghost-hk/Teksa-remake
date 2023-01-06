@@ -17,7 +17,7 @@ export const testRout = router({
         fileType: z.string(),
       })
     )
-    .mutation(async ({ input, ctx }) => {
+    .mutation(async ({ input }) => {
       const extension = input.fileType.split("%2F")[1];
       const Key = `${randomUUID()}.${extension}`;
 

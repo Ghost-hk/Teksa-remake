@@ -17,7 +17,7 @@ import { Input, InputWithChoice } from "../../Components/Form/Input";
 import { GrAdd } from "react-icons/gr";
 import { FiInfo } from "react-icons/fi";
 
-import { formSchema, formErrorsSchema } from "../../utils/TypeSchemas";
+import { formSchema, type formErrorsSchema } from "../../utils/TypeSchemas";
 
 const AddItem = () => {
   type FormType = z.infer<typeof formSchema>;
@@ -120,7 +120,7 @@ const AddItem = () => {
         seassion.user && setValue("userEmail", seassion.user.email as string);
 
         try {
-          const data = formSchema.parse(getValues());
+          formSchema.parse(getValues());
         } catch (err) {
           if (err instanceof z.ZodError) {
             const { fieldErrors } = err.flatten();
@@ -153,7 +153,7 @@ const AddItem = () => {
         uploadToS3()
           .then(async () => {
             const data = getValues();
-            const res = await addItem(data);
+            await addItem(data);
             setIsFormValidating(false);
             resolve("success");
             router.back();

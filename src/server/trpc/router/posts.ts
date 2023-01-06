@@ -137,14 +137,15 @@ export const postsRouter = router({
           },
         });
 
-        input.images.map(async (image) => {
-          return await ctx.prisma.images.create({
-            data: {
-              imageUrl: `https://teksa-images.s3.eu-west-2.amazonaws.com/${image}`,
-              postId: post.id,
-            },
+        input.images &&
+          input.images.map(async (image) => {
+            return await ctx.prisma.images.create({
+              data: {
+                imageUrl: `https://teksa-images.s3.eu-west-2.amazonaws.com/${image}`,
+                postId: post.id,
+              },
+            });
           });
-        });
 
         return post;
       } catch (e) {
