@@ -3,21 +3,6 @@ import Image from "next/image";
 import type { Post, Brand, Images, User } from "@prisma/client";
 
 interface ItemProps {
-  // item: {
-  //   brand: Brand[];
-  //   category?: Category[];
-  //   createdAt: Date;
-  //   description: string | null;
-  //   id: number;
-  //   images: Images[];
-  //   price: number;
-  //   sexe: string;
-  //   size: string;
-  //   title: string;
-  //   updatedAt: Date;
-  //   userId: number;
-  //   user: User;
-  // };
   item: Post & {
     user: User;
     images: Images[];
