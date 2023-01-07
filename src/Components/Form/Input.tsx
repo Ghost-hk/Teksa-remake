@@ -5,7 +5,7 @@ import type {
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form/dist/types";
-import { z } from "zod";
+import type { z } from "zod";
 
 import type { formErrorsSchema } from "../../utils/TypeSchemas";
 

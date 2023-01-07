@@ -36,17 +36,16 @@ const MyApp: AppType<{ session: Session | null }> = ({
             success: {
               style: {
                 background: "#22c55e",
-                // color: "#fff",
-                // fontSize: "1.2rem",
-                // fontWeight: 500,
               },
             },
             error: {
               style: {
                 background: "#dc2626",
-                // color: "#fff",
-                // fontSize: "1.2rem",
-                // fontWeight: 500,
+              },
+            },
+            loading: {
+              style: {
+                background: "#3b82f6",
               },
             },
           }}

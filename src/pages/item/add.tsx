@@ -46,9 +46,6 @@ const AddItem = () => {
     return router.push("/signin");
   }
 
-  const notifySuccess = () => toast.success("Post created successfully");
-  const notifyError = () => toast.error("Something went wrong, try again");
-
   const handelImgSelection = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const files = Array.from(e.target.files as FileList);
@@ -79,12 +76,14 @@ const AddItem = () => {
           state: true,
           images: ["Please select at least one image"],
         });
+        // toast.dismiss();
       } else if (files.length > 5) {
         setIsFormValidating(false);
         setFormErrors({
           state: true,
           images: ["Only 5 images are allowed"],
         });
+        // toast.dismiss();
       }
       files.map(async (file, ind) => {
         if (file instanceof File) {
@@ -114,57 +113,61 @@ const AddItem = () => {
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsFormValidating(true);
-    return new Promise(async (resolve, reject) => {
-      //Check for user
-      if (status === "authenticated" && seassion) {
-        seassion.user && setValue("userEmail", seassion.user.email as string);
 
-        try {
-          formSchema.parse(getValues());
-        } catch (err) {
-          if (err instanceof z.ZodError) {
-            const { fieldErrors } = err.flatten();
+    //Check for user
+    if (status === "authenticated" && seassion) {
+      seassion.user && setValue("userEmail", seassion.user.email as string);
+
+      try {
+        formSchema.parse(getValues());
+      } catch (err) {
+        if (err instanceof z.ZodError) {
+          const { fieldErrors } = err.flatten();
+          setFormErrors({
+            state: false,
+            ...fieldErrors,
+          });
+          setIsFormValidating(false);
+          if (
+            fieldErrors.title ||
+            fieldErrors.sexe ||
+            fieldErrors.size ||
+            fieldErrors.price ||
+            fieldErrors.brand ||
+            fieldErrors.category
+          ) {
             setFormErrors({
-              state: false,
+              state: true,
               ...fieldErrors,
             });
-            setIsFormValidating(false);
-            if (
-              fieldErrors.title ||
-              fieldErrors.sexe ||
-              fieldErrors.size ||
-              fieldErrors.price ||
-              fieldErrors.brand ||
-              fieldErrors.category
-            ) {
-              setFormErrors({
-                state: true,
-                ...fieldErrors,
-              });
-              reject("error");
-              return setIsFormValidating(false);
-            }
-          } else {
-            setIsFormValidating(false);
-            reject("error");
-            throw new Error("Something went wrong", err as ErrorOptions);
+            // toast.dismiss(loadingToast);
+            return setIsFormValidating(false);
           }
+        } else {
+          setIsFormValidating(false);
+          throw new Error("Something went wrong", err as ErrorOptions);
         }
-        uploadToS3()
-          .then(async () => {
-            const data = getValues();
-            await addItem(data);
-            setIsFormValidating(false);
-            resolve("success");
-            router.back();
-          })
-          .catch((err) => {
-            console.log(err);
-            setIsFormValidating(false);
-            reject("error");
-          });
       }
-    });
+      let toastLoading = "";
+      uploadToS3()
+        .then(async () => {
+          toastLoading = toast.loading("Creating post...");
+          const data = getValues();
+          await addItem(data);
+          setIsFormValidating(false);
+          toast.success("Post created successfully", {
+            id: toastLoading,
+          });
+          router.push("/");
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsFormValidating(false);
+          toast.error("Something went wrong, try again", {
+            id: toastLoading,
+          });
+        });
+    }
   };
 
   return (
@@ -177,17 +180,7 @@ const AddItem = () => {
           Add New Item
         </h2>
 
-        <form
-          className="mt-3 flex flex-col"
-          onSubmit={(e) => {
-            const res = submit(e);
-            toast.promise(res, {
-              loading: "Loading",
-              success: notifySuccess(),
-              error: notifyError(),
-            });
-          }}
-        >
+        <form className="mt-3 flex flex-col" onSubmit={submit}>
           {formErrors?.state && (
             <div className="mb-4 flex flex-col items-center justify-center rounded-md bg-red-300 py-2 px-4">
               <p className="text-red-600">Please fill in all required fields</p>
