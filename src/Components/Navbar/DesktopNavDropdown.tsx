@@ -78,7 +78,7 @@ export const DesktopNavbarComponents: FC<DesktopNavbarComponentsProps> = ({
               >
                 <div className="py-1">
                   <CgProfile className="mr-3 inline-block h-6 w-6 text-gray-600" />
-                  <Link href="#" className="font-normal text-gray-800">
+                  <Link href="profile" className="font-normal text-gray-800">
                     Profile
                   </Link>
                 </div>

@@ -42,13 +42,27 @@ export const authOptions: NextAuthOptions = {
         return user;
       },
     }),
-
-    // ...add more providers here
   ],
-  secret: "test",
-  session: {
-    strategy: "jwt",
+  callbacks: {
+    // async jwt({ token, user, account, profile, isNewUser }) {
+    //   user && (token.user = user);
+    //   return token;
+    // },
+    async session({ session, token, user }) {
+      session = {
+        ...session,
+        user: {
+          id: user.id,
+          ...session.user,
+        },
+      };
+      return session;
+    },
   },
+  // secret: "test",
+  // session: {
+  //   strategy: "jwt",
+  // },
 };
 
 export default NextAuth(authOptions);

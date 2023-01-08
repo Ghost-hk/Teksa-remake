@@ -2,15 +2,19 @@ import type { FC } from "react";
 import Image from "next/image";
 import type { Post, Brand, Images, User } from "@prisma/client";
 
+import { FiEdit } from "react-icons/fi";
+import { FiTrash } from "react-icons/fi";
+
 interface ItemProps {
   item: Post & {
     user: User;
     images: Images[];
     brand: Brand[];
   };
+  editAndDeleteBtns?: true;
 }
 
-const ItemCard: FC<ItemProps> = ({ item }) => {
+const ItemCard: FC<ItemProps> = ({ item, editAndDeleteBtns }) => {
   return (
     <div className="aspect-[1/0.5] w-full rounded-md bg-white shadow-md">
       {/* Img */}
@@ -38,22 +42,34 @@ const ItemCard: FC<ItemProps> = ({ item }) => {
         <p className="py-2 text-sm font-semibold text-gray-600">
           {item.price} MAD
         </p>
-        <div className="flex items-center">
-          <div
-            className={`relative mr-2 h-7 w-7 overflow-hidden rounded-full bg-gray-400 ${
-              !item.user.image && "flex items-center justify-center"
-            }`}
-          >
-            {item.user.image ? (
-              <Image src={item.user.image} fill alt="profile Img" />
-            ) : (
-              <span className="text-sm text-white">
-                {item.user.name?.split("")[0]?.toUpperCase()}
-              </span>
-            )}
+
+        {editAndDeleteBtns ? (
+          <div className=" flex w-full justify-between">
+            <button className="flex items-center gap-1 text-violet-600 underline">
+              Delete <FiTrash />
+            </button>
+            <button className="flex items-center gap-1 text-violet-600 underline">
+              Edit <FiEdit />
+            </button>
           </div>
-          <p className="text-sm text-gray-400">{item.user.name}</p>
-        </div>
+        ) : (
+          <div className="flex items-center">
+            <div
+              className={`relative mr-2 h-7 w-7 overflow-hidden rounded-full bg-gray-400 ${
+                !item.user.image && "flex items-center justify-center"
+              }`}
+            >
+              {item.user.image ? (
+                <Image src={item.user.image} fill alt="profile Img" />
+              ) : (
+                <span className="text-sm text-white">
+                  {item.user.name?.split("")[0]?.toUpperCase()}
+                </span>
+              )}
+            </div>
+            <p className="text-sm text-gray-400">{item.user.name}</p>
+          </div>
+        )}
       </div>
     </div>
   );
