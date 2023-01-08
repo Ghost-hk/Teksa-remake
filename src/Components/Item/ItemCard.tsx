@@ -28,12 +28,12 @@ const ItemCard: FC<ItemProps> = ({ item }) => {
 
       {/* info */}
       <div className="p-3">
-        <p className="text-base  text-gray-600 ">{item.title}</p>
+        <p className="truncate text-base text-gray-600 ">{item.title}</p>
         <div className=" ">
-          <p className=" text-sm text-gray-400 ">
+          <p className="truncate  text-sm text-gray-400">
             Brand: {item.brand[0]?.name}
           </p>
-          <p className=" text-sm text-gray-400 ">Size: {item.size}</p>
+          <p className="truncate text-sm text-gray-400 ">Size: {item.size}</p>
         </div>
         <p className="py-2 text-sm font-semibold text-gray-600">
           {item.price} MAD
