@@ -6,6 +6,8 @@ import { z } from "zod";
 import { useState } from "react";
 import router from "next/router";
 
+import toast from "react-hot-toast";
+
 // interface loginProps {}
 
 const Login = () => {
@@ -44,7 +46,7 @@ const Login = () => {
       redirect: false,
       email: values.email,
       password: values.password,
-      callbackUrl: "/",
+      // callbackUrl: "/",
     });
 
     console.log(res);
@@ -52,12 +54,18 @@ const Login = () => {
     if (res?.error) {
       setErr({ err: true, message: res.error });
     } else if (res?.ok && res.error === null) {
+      toast.success("Logged in successfully");
       router.push("/");
     }
   };
 
   const googleHandler = () => {
-    signIn("google", { callbackUrl: "http://localhost:3000" });
+    const res = signIn("google", { callbackUrl: "/" });
+    toast.promise(res, {
+      loading: "Trying to login",
+      success: "Logged in successfully",
+      error: "Failed to login",
+    });
   };
 
   return (
@@ -139,6 +147,7 @@ const Login = () => {
 
           {/* Google Btn */}
           <button
+            type="button"
             onClick={googleHandler}
             className="mb-4 flex w-full justify-center rounded-md border py-2 text-lg font-medium text-gray-600 shadow-md shadow-gray-400"
           >

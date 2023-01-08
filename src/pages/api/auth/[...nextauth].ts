@@ -29,11 +29,15 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user) {
-          throw new Error("No user found");
+          // throw new Error("No user found");
+          // return null;
+          return Promise.reject(new Error("No user found"));
         }
         const passwordValid = await compare(password, user.password as string);
         if (!passwordValid || user.email !== email) {
-          throw new Error("Incorrect email or password");
+          // throw new Error("Incorrect email or password");
+          // return null;
+          return Promise.reject(new Error("Incorrect email or password"));
         }
         return user;
       },

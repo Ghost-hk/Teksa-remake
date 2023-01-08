@@ -82,7 +82,7 @@ export const DesktopNavbarComponents: FC<DesktopNavbarComponentsProps> = ({
                     Profile
                   </Link>
                 </div>
-                <div className="pb-1">
+                <div className="cursor-pointer pb-1">
                   <FiLogOut className="mr-3 inline-block h-6 w-6 text-gray-600" />
                   <span
                     onClick={() => signOut()}

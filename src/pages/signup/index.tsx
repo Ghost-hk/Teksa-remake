@@ -7,8 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { signIn } from "next-auth/react";
+
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   username: z.string().min(6).max(16),
@@ -20,7 +23,8 @@ const formSchema = z.object({
 type FormType = z.infer<typeof formSchema>;
 
 const SingUp = () => {
-  const { mutate, isError, error, isSuccess } =
+  const router = useRouter();
+  const { mutateAsync, isError, error, isSuccess, isLoading } =
     trpc.singup.singUp.useMutation();
   const {
     register,
@@ -39,15 +43,25 @@ const SingUp = () => {
       });
     }
 
-    mutate(data);
+    const user = await mutateAsync(data);
+    console.log(user);
 
     if (isSuccess) {
-      await signIn("credentials", {
-        redirect: false,
-        email: data.email,
-        password: data.password,
-        callbackUrl: "/",
-      });
+      console.log("hit is success", isSuccess);
+      if (user) {
+        const res = await signIn("credentials", {
+          redirect: false,
+          email: data.email,
+          password: data.password,
+          callbackUrl: "/",
+        });
+        console.log(res);
+
+        if (res?.ok && res.error === null) {
+          toast.success("Logged in successfully");
+          router.push("/");
+        }
+      }
     }
 
     if (isError) {
@@ -230,8 +244,10 @@ const SingUp = () => {
             <div className="mt-4 flex w-full justify-end">
               <button
                 type="submit"
-                className="rounded-md bg-violet-600 px-6 py-2 text-base text-white shadow shadow-violet-600"
-                disabled={isSubmitting}
+                className={`rounded-md bg-violet-600 px-6 py-2 text-base text-white shadow shadow-violet-600 ${
+                  (isSubmitting || isLoading) && "opacity-50"
+                }`}
+                disabled={isSubmitting || isLoading}
               >
                 Sing Up
               </button>
@@ -246,6 +262,7 @@ const SingUp = () => {
 
             {/* Google Btn */}
             <button
+              type="button"
               onClick={() => signIn("google", { callbackUrl: "/" })}
               className="mb-4 flex w-full justify-center rounded-md border py-2 text-lg font-medium text-gray-600 shadow-md shadow-gray-400"
             >
