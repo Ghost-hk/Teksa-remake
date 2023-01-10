@@ -3,6 +3,8 @@ import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 import { formSchema } from "../../../utils/TypeSchemas";
 
+import S3 from "aws-sdk/clients/s3";
+
 export const postsRouter = router({
   getpostsByUserId: publicProcedure
     .input(
@@ -49,13 +51,6 @@ export const postsRouter = router({
           category: true,
         },
       });
-
-      // const user = await ctx.prisma.user.findUniqueOrThrow({
-      //   where: { id: posts.userId },
-      //   include: {
-      //     posts: true,
-      //   },
-      // });
 
       return posts;
     }),
@@ -133,13 +128,6 @@ export const postsRouter = router({
       } catch (e) {
         console.log("Post or Image couldnt be created ", e);
       }
-
-      // const images = await ctx.prisma.images.create({
-      //   data: input.images.map((image, ind) => ({
-      //     name: input.images[ind],
-      //     postId: post.id,
-      //   })),
-      // });
     }),
 
   getAllCategories: publicProcedure.query(async ({ ctx }) => {
@@ -151,4 +139,93 @@ export const postsRouter = router({
     const brands = await ctx.prisma.brand.findMany({});
     return brands;
   }),
+
+  deleteImage: protectedProcedure
+    .input(z.object({ imageUrl: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const s3 = new S3({
+        accessKeyId: process.env.ACCESS_KEY,
+        secretAccessKey: process.env.SECRET_KEY,
+        region: process.env.REGION,
+        signatureVersion: "v4",
+      });
+      console.log("hit the delete image route");
+      s3.deleteObject(
+        {
+          Bucket: process.env.BUCKET_NAME as string,
+          Key: input.imageUrl.slice(48),
+        },
+        (err, data) => {
+          console.error(err);
+          console.log(data);
+        }
+      );
+
+      const image = await ctx.prisma.images.delete({
+        where: { imageUrl: input.imageUrl },
+      });
+
+      return image;
+    }),
+
+  updatePost: protectedProcedure
+    .input(formSchema)
+    .mutation(async ({ ctx, input }) => {
+      const { userEmail } = input;
+
+      const user = await ctx.prisma.user.findUnique({
+        where: { email: userEmail },
+        include: {
+          posts: true,
+        },
+      });
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      if (!user.posts.some((post) => post.id === input.id)) {
+        throw new Error("You are not authorized to update this post");
+      }
+
+      try {
+        const post = await ctx.prisma.post.update({
+          where: { id: input.id },
+          data: {
+            title: input.title,
+            description: input.description,
+            price: input.price,
+            size: input.size,
+            sexe: input.sexe,
+            brand: {
+              connectOrCreate: {
+                where: { name: input.brand },
+                create: { name: input.brand },
+              },
+            },
+            category: {
+              connectOrCreate: {
+                where: { name: input.category },
+                create: { name: input.category },
+              },
+            },
+            userId: user.id,
+          },
+        });
+
+        input.images &&
+          input.images.map(async (image) => {
+            return await ctx.prisma.images.create({
+              data: {
+                imageUrl: `https://teksa-images.s3.eu-west-2.amazonaws.com/${image}`,
+                postId: post.id,
+              },
+            });
+          });
+
+        return post;
+      } catch (e) {
+        console.log("Post or Image couldnt be created ", e);
+      }
+    }),
 });

@@ -76,6 +76,8 @@ const AddItem = () => {
           state: true,
           images: ["Please select at least one image"],
         });
+        reject("Please select at least one image");
+        return;
         // toast.dismiss();
       } else if (files.length > 5) {
         setIsFormValidating(false);
@@ -83,6 +85,8 @@ const AddItem = () => {
           state: true,
           images: ["Only 5 images are allowed"],
         });
+        reject("Only 5 images are allowed");
+        return;
         // toast.dismiss();
       }
       files.map(async (file, ind) => {

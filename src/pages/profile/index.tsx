@@ -3,6 +3,7 @@ import { trpc } from "../../utils/trpc";
 
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 import { useRouter } from "next/router";
 
 import moment from "moment";
@@ -15,7 +16,7 @@ const ProfilePage = () => {
 
   const { data: session, status } = useSession();
   const { data: profile, isLoading } =
-    trpc.profile.getPrileDataByUserId.useQuery(
+    trpc.profile.getProfileDataByUserId.useQuery(
       { userId: session?.user?.id as string },
       { enabled: !!session?.user?.id }
     );
@@ -30,6 +31,9 @@ const ProfilePage = () => {
 
   return (
     <div className="mx-3 mt-5 md:mx-5 lg:mx-6 ">
+      <Head>
+        <title>Profile</title>
+      </Head>
       {profile && (
         <div className="gap-6 md:flex">
           {/* Profile info */}

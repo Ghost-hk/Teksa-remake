@@ -1,5 +1,5 @@
 import { type FC, useState, useEffect, useRef } from "react";
-import { type Session } from "next-auth";
+import type { Session } from "next-auth/core/types";
 import { signOut } from "next-auth/react";
 
 import Link from "next/link";

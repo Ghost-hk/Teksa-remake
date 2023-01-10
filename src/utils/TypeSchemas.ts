@@ -17,6 +17,7 @@ export const formSchema = z.object({
   category: z.string().min(1),
   brand: z.string().min(1),
   userEmail: z.string(),
+  id: z.string().optional(),
 });
 
 export const formErrorsSchema = z.object({

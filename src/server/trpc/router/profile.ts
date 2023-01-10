@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { protectedProcedure, publicProcedure, router } from "../trpc";
+import { publicProcedure, router } from "../trpc";
 
 export const profileRouter = router({
-  getPrileDataByUserId: publicProcedure
+  getProfileDataByUserId: publicProcedure
     .input(
       z.object({
         userId: z.string(),

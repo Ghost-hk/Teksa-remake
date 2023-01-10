@@ -1,5 +1,8 @@
 import type { FC } from "react";
+
 import Image from "next/image";
+import Link from "next/link";
+
 import type { Post, Brand, Images, User } from "@prisma/client";
 
 import { FiEdit } from "react-icons/fi";
@@ -48,9 +51,12 @@ const ItemCard: FC<ItemProps> = ({ item, editAndDeleteBtns }) => {
             <button className="flex items-center gap-1 text-violet-600 underline">
               Delete <FiTrash />
             </button>
-            <button className="flex items-center gap-1 text-violet-600 underline">
+            <Link
+              href={`/item/update/${item.id}`}
+              className="flex items-center gap-1 text-violet-600 underline"
+            >
               Edit <FiEdit />
-            </button>
+            </Link>
           </div>
         ) : (
           <div className="flex items-center">

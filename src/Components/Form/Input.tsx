@@ -129,7 +129,7 @@ export const InputWithChoice: FC<InputWithChoiceProps> = ({
           {data &&
             data
               .filter((item: Category) => {
-                const searchTerm = watch(name).toLowerCase();
+                const searchTerm = watch(name)?.toLowerCase();
                 const fullName = item.name.toLowerCase();
                 return (
                   searchTerm &&
