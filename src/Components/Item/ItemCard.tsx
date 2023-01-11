@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -15,9 +15,16 @@ interface ItemProps {
     brand: Brand[];
   };
   editAndDeleteBtns?: true;
+  setIsDeletePopupOpen?: Dispatch<SetStateAction<boolean>>;
+  setPostIdToDelete?: Dispatch<SetStateAction<string | null>>;
 }
 
-const ItemCard: FC<ItemProps> = ({ item, editAndDeleteBtns }) => {
+const ItemCard: FC<ItemProps> = ({
+  item,
+  editAndDeleteBtns,
+  setIsDeletePopupOpen,
+  setPostIdToDelete,
+}) => {
   return (
     <div className="aspect-[1/0.5] w-full rounded-md bg-white shadow-md">
       {/* Img */}
@@ -28,7 +35,6 @@ const ItemCard: FC<ItemProps> = ({ item, editAndDeleteBtns }) => {
           fill
           style={{
             objectFit: "contain",
-            //   zIndex: 1,
           }}
         />
       </div>
@@ -48,7 +54,13 @@ const ItemCard: FC<ItemProps> = ({ item, editAndDeleteBtns }) => {
 
         {editAndDeleteBtns ? (
           <div className=" flex w-full justify-between">
-            <button className="flex items-center gap-1 text-violet-600 underline">
+            <button
+              className="flex items-center gap-1 text-violet-600 underline"
+              onClick={() => {
+                setIsDeletePopupOpen && setIsDeletePopupOpen(true);
+                setPostIdToDelete && setPostIdToDelete(item.id);
+              }}
+            >
               Delete <FiTrash />
             </button>
             <Link

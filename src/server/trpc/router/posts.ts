@@ -228,4 +228,47 @@ export const postsRouter = router({
         console.log("Post or Image couldnt be created ", e);
       }
     }),
+
+  deletePost: protectedProcedure
+    .input(z.object({ postId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { postId } = input;
+
+      const post = await ctx.prisma.post.findUnique({
+        where: { id: postId },
+        include: {
+          images: true,
+        },
+      });
+
+      if (!post) {
+        throw new Error("Post not found");
+      }
+
+      const s3 = new S3({
+        accessKeyId: process.env.ACCESS_KEY,
+        secretAccessKey: process.env.SECRET_KEY,
+        region: process.env.REGION,
+        signatureVersion: "v4",
+      });
+
+      post.images.map((image) => {
+        s3.deleteObject(
+          {
+            Bucket: process.env.BUCKET_NAME as string,
+            Key: image.imageUrl.slice(48),
+          },
+          (err, data) => {
+            console.error(err);
+            console.log(data);
+          }
+        );
+      });
+
+      const deletedPost = await ctx.prisma.post.delete({
+        where: { id: postId },
+      });
+
+      return deletedPost;
+    }),
 });
