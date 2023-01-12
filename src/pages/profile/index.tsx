@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 
 import { FiEdit } from "react-icons/fi";
 import ItemCard, { ItemCardSkeleton } from "../../Components/Item/ItemCard";
-import type { Brand, Category, Images, Post, User } from "@prisma/client";
+import type { Brand, Category, Images, Post } from "@prisma/client";
 
 const ProfilePage = () => {
   const router = useRouter();

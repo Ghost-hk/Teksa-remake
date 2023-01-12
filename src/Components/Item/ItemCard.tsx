@@ -10,7 +10,7 @@ import { FiTrash } from "react-icons/fi";
 
 interface ItemProps {
   item: Post & {
-    user: User;
+    user?: User;
     images: Images[];
     brand: Brand[];
   };
@@ -74,18 +74,18 @@ const ItemCard: FC<ItemProps> = ({
           <div className="flex items-center">
             <div
               className={`relative mr-2 h-7 w-7 overflow-hidden rounded-full bg-gray-400 ${
-                !item.user.image && "flex items-center justify-center"
+                !item.user?.image && "flex items-center justify-center"
               }`}
             >
-              {item.user.image ? (
-                <Image src={item.user.image} fill alt="profile Img" />
+              {item.user?.image ? (
+                <Image src={item.user?.image} fill alt="profile Img" />
               ) : (
                 <span className="text-sm text-white">
-                  {item.user.name?.split("")[0]?.toUpperCase()}
+                  {item.user?.name?.split("")[0]?.toUpperCase()}
                 </span>
               )}
             </div>
-            <p className="text-sm text-gray-400">{item.user.name}</p>
+            <p className="text-sm text-gray-400">{item.user?.name}</p>
           </div>
         )}
       </div>
