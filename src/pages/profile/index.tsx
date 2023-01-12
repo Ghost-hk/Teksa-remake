@@ -22,7 +22,6 @@ const ProfilePage = () => {
   const [postIdToDelete, setPostIdToDelete] = useState<string | null>(null);
   const [items, setItems] = useState<
     | (Post & {
-        user: User;
         images: Images[];
         brand: Brand[];
         category: Category[];
@@ -31,11 +30,14 @@ const ProfilePage = () => {
   >();
 
   const { data: session, status } = useSession();
+  // if (status === "unauthenticated") {
+  //   return router.push("/signin");
+  // }
   const { mutateAsync: deletePostTRPC } = trpc.posts.deletePost.useMutation();
   const { data: profile, isLoading } =
-    trpc.profile.getProfileDataByUserId.useQuery(
-      { userId: session?.user?.id as string },
-      { enabled: !!session?.user?.id, refetchOnWindowFocus: false }
+    trpc.profile.getProfileDataByUserEmail.useQuery(
+      { userEmail: session?.user?.email as string },
+      { enabled: !!session?.user?.email, refetchOnWindowFocus: false }
     );
 
   useEffect(() => {
@@ -45,9 +47,8 @@ const ProfilePage = () => {
   }, [profile]);
 
   if (status === "unauthenticated") {
-    return router.push("/signin");
+    router.push("/signin");
   }
-
   const handleDeletePost = async (postId: string) => {
     try {
       toast

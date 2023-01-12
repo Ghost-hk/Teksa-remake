@@ -29,40 +29,20 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user) {
-          // throw new Error("No user found");
-          // return null;
-          return Promise.reject(new Error("No user found"));
+          throw new Error("No user found");
         }
         const passwordValid = await compare(password, user.password as string);
         if (!passwordValid || user.email !== email) {
-          // throw new Error("Incorrect email or password");
-          // return null;
-          return Promise.reject(new Error("Incorrect email or password"));
+          throw new Error("Incorrect email or password");
         }
         return user;
       },
     }),
   ],
-  callbacks: {
-    // async jwt({ token, user, account, profile, isNewUser }) {
-    //   user && (token.user = user);
-    //   return token;
-    // },
-    async session({ session, token, user }) {
-      session = {
-        ...session,
-        user: {
-          id: user.id,
-          ...session.user,
-        },
-      };
-      return session;
-    },
+  secret: "test",
+  session: {
+    strategy: "jwt",
   },
-  // secret: "test",
-  // session: {
-  //   strategy: "jwt",
-  // },
 };
 
 export default NextAuth(authOptions);

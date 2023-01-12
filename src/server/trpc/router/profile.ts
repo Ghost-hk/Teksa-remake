@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, router } from "../trpc";
+import { publicProcedure, protectedProcedure, router } from "../trpc";
 
 export const profileRouter = router({
   getProfileDataByUserId: publicProcedure
@@ -23,6 +23,48 @@ export const profileRouter = router({
               brand: true,
               category: true,
               user: true,
+            },
+          }, // Array of Posts
+          phone: true, // String
+          whatsapp: true, // String
+          instagram: true, // String
+          facebook: true, // String
+          image: true, // String Url
+          location: true, // String
+          showPhone: true, // Boolian
+          showWhatsapp: true, // Boolian
+          useSameNumber: true, // Boolian
+          showInstagam: true, // Boolian
+          showFacebook: true, // Boolian
+          showEmail: true, // Boolian
+          createdAt: true, // String
+          updatedAt: true, // String
+        },
+      });
+
+      return user;
+    }),
+
+  getProfileDataByUserEmail: protectedProcedure
+    .input(
+      z.object({
+        userEmail: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const { userEmail } = input;
+
+      const user = await ctx.prisma.user.findUniqueOrThrow({
+        where: { email: userEmail },
+        select: {
+          id: true, // String
+          name: true, // String
+          email: true, // String
+          posts: {
+            include: {
+              images: true,
+              brand: true,
+              category: true,
             },
           }, // Array of Posts
           phone: true, // String
