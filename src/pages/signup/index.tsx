@@ -24,8 +24,12 @@ type FormType = z.infer<typeof formSchema>;
 
 const SingUp = () => {
   const router = useRouter();
-  const { mutateAsync, isError, error, isSuccess, isLoading } =
-    trpc.singup.singUp.useMutation();
+  const {
+    mutateAsync: createAccountTRPC,
+    error,
+    isLoading,
+    isError,
+  } = trpc.singup.singUp.useMutation();
   const {
     register,
     handleSubmit,
@@ -43,30 +47,27 @@ const SingUp = () => {
       });
     }
 
-    const user = await mutateAsync(data);
-    console.log(user);
-
-    if (isSuccess) {
-      console.log("hit is success", isSuccess);
-      if (user) {
-        const res = await signIn("credentials", {
-          redirect: false,
-          email: data.email,
-          password: data.password,
-          callbackUrl: "/",
-        });
-        console.log(res);
-
-        if (res?.ok && res.error === null) {
-          toast.success("Logged in successfully");
+    toast
+      .promise(createAccountTRPC(data), {
+        loading: "Creating account...",
+        success: "Account created successfully",
+        error: "Failed to create account",
+      })
+      .then(async (user) => {
+        if (user) {
+          await signIn("credentials", {
+            redirect: false,
+            email: data.email,
+            password: data.password,
+            callbackUrl: "/",
+          });
           router.push("/");
         }
-      }
-    }
-
-    if (isError) {
-      return;
-    }
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      });
   };
 
   useEffect(() => {
@@ -101,7 +102,7 @@ const SingUp = () => {
       </Head>
       <div className="w-full px-4">
         <div className="mx-auto  my-8 flex flex-col items-center justify-center rounded-md bg-white px-3 shadow-md md:max-w-xl">
-          <h1 className="my-4 text-2xl font-semibold text-gray-800">Sing Up</h1>
+          <h1 className="my-4 text-2xl font-semibold text-gray-800">Sign Up</h1>
           <form className="my-4 w-full" onSubmit={handleSubmit(onSubmit)}>
             {isError && (
               <div className="mb-2 rounded-md bg-red-500">

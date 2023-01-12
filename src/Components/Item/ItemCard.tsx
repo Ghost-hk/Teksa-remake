@@ -95,7 +95,7 @@ const ItemCard: FC<ItemProps> = ({
 
 export const ItemCardSkeleton = () => {
   return (
-    <div className=" w-full  overflow-hidden rounded-md border  border-slate-400 shadow">
+    <div className="w-full overflow-hidden rounded-md border border-slate-400 shadow">
       <div className=" animate-pulse">
         <div className="aspect-[1/0.5] w-full  bg-slate-700"></div>
         <div className="p-3">

@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 
 import { FiEdit } from "react-icons/fi";
-import ItemCard from "../../Components/Item/ItemCard";
+import ItemCard, { ItemCardSkeleton } from "../../Components/Item/ItemCard";
 import type { Brand, Category, Images, Post, User } from "@prisma/client";
 
 const ProfilePage = () => {
@@ -48,13 +48,8 @@ const ProfilePage = () => {
     return router.push("/signin");
   }
 
-  if (status === "loading" || isLoading) {
-    return <div>Loading...</div>;
-  }
-
   const handleDeletePost = async (postId: string) => {
     try {
-      // deletePostTRPC({ postId }).then(() => {
       toast
         .promise(deletePostTRPC({ postId }), {
           loading: "Deleting...",
@@ -72,6 +67,58 @@ const ProfilePage = () => {
       console.log(error);
     }
   };
+
+  if (status === "loading" || isLoading) {
+    return (
+      <div className="mx-3 mt-5 md:mx-5 lg:mx-6 ">
+        <div className="gap-6 md:flex">
+          <div className="w-full  self-start rounded-md bg-white px-3 py-4 shadow-md md:mb-0 md:max-w-xs">
+            <div className=" animate-pulse">
+              {/* Image and user Name */}
+              <div className="flex flex-col items-center">
+                <div className="h-16 w-16 rounded-full bg-slate-700"></div>
+                <div className="mt-2 h-3 w-28 rounded-full bg-slate-700"></div>
+              </div>
+
+              {/* User info */}
+              <div className="flex  gap-2">
+                <div className="mt-4 w-full">
+                  <div className="h-4 w-full rounded-full bg-slate-700"></div>
+                  <div className="mt-2 h-4 w-full rounded-full bg-slate-700"></div>
+                  <div className="mt-2 h-4 w-full rounded-full bg-slate-700"></div>
+                  <div className="mt-2 h-4 w-full rounded-full bg-slate-700"></div>
+                </div>
+                <div className="mt-4 w-full">
+                  <div className="h-4 w-full rounded-full bg-slate-700"></div>
+                  <div className="mt-2 h-4 w-full rounded-full bg-slate-700"></div>
+                  <div className="mt-2 h-4 w-full rounded-full bg-slate-700"></div>
+                  <div className="mt-2 h-4 w-full rounded-full bg-slate-700"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* posts */}
+          <div className="mt-4 w-full rounded-md bg-white px-3 py-4 shadow-md md:mt-0">
+            <h2 className="text-lg font-semibold text-gray-800">My Posts</h2>
+            <div className="grid animate-pulse grid-cols-2 gap-x-3 gap-y-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="mt-3 overflow-hidden rounded-md border ">
+                <ItemCardSkeleton />
+              </div>
+              <div className="mt-3 overflow-hidden rounded-md border ">
+                <ItemCardSkeleton />
+              </div>
+              <div className="mt-3 overflow-hidden rounded-md border ">
+                <ItemCardSkeleton />
+              </div>
+              <div className="mt-3 overflow-hidden rounded-md border ">
+                <ItemCardSkeleton />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-3 mt-5 md:mx-5 lg:mx-6 ">
