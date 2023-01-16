@@ -33,8 +33,14 @@ const UpdateItemPage = () => {
   const [imagesFile, setImagesFile] = useState<File[]>([]);
   const [imagesUrl, setImagesUrl] = useState<string[]>([]);
 
-  const categories = trpc.posts.getAllCategories.useQuery();
-  const brands = trpc.posts.getAllBrands.useQuery();
+  const categories = trpc.posts.getAllCategories.useQuery(
+    { inp: "woow" },
+    { refetchOnWindowFocus: false }
+  );
+  const brands = trpc.posts.getAllBrands.useQuery(
+    { inp: "woow" },
+    { refetchOnWindowFocus: false }
+  );
   const { mutateAsync: deleteImageTRPC } = trpc.posts.deleteImage.useMutation();
   const { mutateAsync: uploadToS3TRPC } = trpc.test.upload.useMutation();
   const { mutateAsync: updatePostTRPC } = trpc.posts.updatePost.useMutation();
@@ -157,65 +163,80 @@ const UpdateItemPage = () => {
     });
   };
 
-  console.log(watch());
+  const handlesubmit = async (e: FormEvent<HTMLFormElement>) => {
+    return new Promise(async (resolve, reject) => {
+      e.preventDefault();
+      setIsFormValidating(true);
+
+      //Check for user
+      if (status === "authenticated" && seassion) {
+        seassion.user && setValue("userEmail", seassion.user.email as string);
+        setValue("id", id as string);
+
+        try {
+          formSchema.parse(getValues());
+        } catch (err) {
+          if (err instanceof z.ZodError) {
+            const { fieldErrors } = err.flatten();
+            setFormErrors({
+              state: false,
+              ...fieldErrors,
+            });
+            setIsFormValidating(false);
+            if (
+              fieldErrors.title ||
+              fieldErrors.sexe ||
+              fieldErrors.size ||
+              fieldErrors.price ||
+              fieldErrors.brand ||
+              fieldErrors.category
+            ) {
+              setFormErrors({
+                state: true,
+                ...fieldErrors,
+              });
+              setIsFormValidating(false);
+              reject("error");
+            }
+          } else {
+            setIsFormValidating(false);
+            reject(`Something went wrong: ${err as ErrorOptions}`);
+            // throw new Error("Something went wrong", err as ErrorOptions);
+          }
+        }
+        uploadToS3()
+          .then(async () => {
+            // toastLoading = toast.loading("Updating post...");
+            await updatePostTRPC(getValues());
+            setIsFormValidating(false);
+            resolve("Post updated successfully");
+            // toast.success("Post updated successfully", {
+            //   id: toastLoading,
+            // });
+            // router.push("/profile");
+          })
+          .catch((err) => {
+            console.log(err);
+            setIsFormValidating(false);
+            toast.error("Something went wrong, with image Uploade");
+          });
+        await updatePostTRPC(getValues());
+        resolve("Post updated successfully");
+      }
+    });
+  };
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsFormValidating(true);
-
-    //Check for user
-    if (status === "authenticated" && seassion) {
-      seassion.user && setValue("userEmail", seassion.user.email as string);
-      setValue("id", id as string);
-
-      try {
-        formSchema.parse(getValues());
-      } catch (err) {
-        if (err instanceof z.ZodError) {
-          const { fieldErrors } = err.flatten();
-          setFormErrors({
-            state: false,
-            ...fieldErrors,
-          });
-          setIsFormValidating(false);
-          if (
-            fieldErrors.title ||
-            fieldErrors.sexe ||
-            fieldErrors.size ||
-            fieldErrors.price ||
-            fieldErrors.brand ||
-            fieldErrors.category
-          ) {
-            setFormErrors({
-              state: true,
-              ...fieldErrors,
-            });
-            return setIsFormValidating(false);
-          }
-        } else {
-          setIsFormValidating(false);
-          throw new Error("Something went wrong", err as ErrorOptions);
-        }
-      }
-      let toastLoading = "";
-      uploadToS3()
-        .then(async () => {
-          toastLoading = toast.loading("Updating post...");
-          await updatePostTRPC(getValues());
-          setIsFormValidating(false);
-          toast.success("Post updated successfully", {
-            id: toastLoading,
-          });
-          router.push("/profile");
-        })
-        .catch((err) => {
-          console.log(err);
-          setIsFormValidating(false);
-          toast.error("Something went wrong, try again", {
-            id: toastLoading,
-          });
-        });
-    }
+    toast
+      .promise(handlesubmit(e), {
+        loading: "Updating post...",
+        success: "Post updated successfully",
+        error: "Something went wrong",
+      })
+      .then(() => {
+        router.push("/profile");
+      });
   };
 
   return (
@@ -377,7 +398,7 @@ const UpdateItemPage = () => {
               }`}
               disabled={isFormValidating}
             >
-              Add Item
+              Update
             </button>
           </form>
         </div>

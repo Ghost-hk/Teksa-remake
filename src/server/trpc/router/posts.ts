@@ -130,15 +130,19 @@ export const postsRouter = router({
       }
     }),
 
-  getAllCategories: publicProcedure.query(async ({ ctx }) => {
-    const categories = await ctx.prisma.category.findMany({});
-    return categories;
-  }),
+  getAllCategories: publicProcedure
+    .input(z.object({ inp: z.string() }))
+    .query(async ({ ctx }) => {
+      const categories = await ctx.prisma.category.findMany({});
+      return categories;
+    }),
 
-  getAllBrands: publicProcedure.query(async ({ ctx }) => {
-    const brands = await ctx.prisma.brand.findMany({});
-    return brands;
-  }),
+  getAllBrands: publicProcedure
+    .input(z.object({ inp: z.string() }))
+    .query(async ({ ctx }) => {
+      const brands = await ctx.prisma.brand.findMany({});
+      return brands;
+    }),
 
   deleteImage: protectedProcedure
     .input(z.object({ imageUrl: z.string() }))

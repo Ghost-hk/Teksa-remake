@@ -2,6 +2,7 @@ import type { Dispatch, FC, SetStateAction } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import type { Post, Brand, Images, User } from "@prisma/client";
 
@@ -25,10 +26,14 @@ const ItemCard: FC<ItemProps> = ({
   setIsDeletePopupOpen,
   setPostIdToDelete,
 }) => {
+  const router = useRouter();
   return (
     <div className="aspect-[1/0.5] w-full rounded-md bg-white shadow-md">
       {/* Img */}
-      <div className="relative aspect-[1/1]  w-full">
+      <div
+        className="relative aspect-[1/1]  w-full cursor-pointer"
+        onClick={() => router.push(`store/${item.id}`)}
+      >
         <Image
           src={`${item.images[0]?.imageUrl}`}
           alt="item Iamge"
@@ -41,7 +46,12 @@ const ItemCard: FC<ItemProps> = ({
 
       {/* info */}
       <div className="p-3">
-        <p className="truncate text-base text-gray-600 ">{item.title}</p>
+        <p
+          className="cursor-pointer truncate text-base text-gray-600"
+          onClick={() => router.push(`store/${item.id}`)}
+        >
+          {item.title}
+        </p>
         <div className=" ">
           <p className="truncate  text-sm text-gray-400">
             Brand: {item.brand[0]?.name}
@@ -71,7 +81,10 @@ const ItemCard: FC<ItemProps> = ({
             </Link>
           </div>
         ) : (
-          <div className="flex items-center">
+          <div
+            className="flex cursor-pointer items-center"
+            onClick={() => router.push(`/profile/${item.user?.id}`)}
+          >
             <div
               className={`relative mr-2 h-7 w-7 overflow-hidden rounded-full bg-gray-400 ${
                 !item.user?.image && "flex items-center justify-center"

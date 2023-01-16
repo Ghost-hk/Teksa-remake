@@ -35,9 +35,14 @@ const AddItem = () => {
   const { mutateAsync } = trpc.test.upload.useMutation();
   const { mutateAsync: addItem } = trpc.posts.createPost.useMutation();
 
-  const categories = trpc.posts.getAllCategories.useQuery();
-  const brands = trpc.posts.getAllBrands.useQuery();
-
+  const categories = trpc.posts.getAllCategories.useQuery(
+    { inp: "woow" },
+    { refetchOnWindowFocus: false }
+  );
+  const brands = trpc.posts.getAllBrands.useQuery(
+    { inp: "woow" },
+    { refetchOnWindowFocus: false }
+  );
   const { register, setValue, getValues, watch } = useForm<FormType>({
     resolver: zodResolver(formSchema),
   });

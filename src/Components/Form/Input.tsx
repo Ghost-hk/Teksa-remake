@@ -25,7 +25,6 @@ interface UseFormWatchInterface {
 
 interface InputProps {
   name: "title" | "description" | "price" | "size";
-  // name: string;
   id: string;
   type?: string;
   label: string;
@@ -48,7 +47,7 @@ export const Input: FC<InputProps> = ({
       <input
         type={type ? type : "text"}
         id={id}
-        className={`border-1 peer w-full rounded-lg border-gray-600 text-gray-800 focus:border-violet-600 focus:outline-none focus:ring-1 focus:ring-violet-600 ${
+        className={`border-1 peer w-full rounded-lg border-gray-600 !bg-white text-gray-800 focus:border-violet-600 focus:outline-none focus:ring-1 focus:ring-violet-600 ${
           formErrors &&
           name in formErrors &&
           "border-2 border-red-500  focus:border-red-500 focus:ring-red-500"
@@ -66,6 +65,83 @@ export const Input: FC<InputProps> = ({
           formErrors &&
           name in formErrors &&
           "text-red-500 peer-focus:text-red-500"
+        }`}
+      >
+        {label}
+      </label>
+    </div>
+  );
+};
+
+interface UseFormWatchInterfaceForProfile {
+  // phone: number;
+  phone?: string | undefined;
+  whatsapp?: number | undefined;
+  instagram?: string | undefined;
+  facebook?: string | undefined;
+  image?: string | undefined;
+  name: string;
+  email: string;
+  location: string;
+  size?: string | undefined;
+  sexe?: "Male" | "Female" | "" | undefined;
+  showPhone: boolean;
+  showWhatsapp: boolean;
+  useSameNumber: boolean;
+  showInstagram: boolean;
+  showFacebook: boolean;
+  showEmail: boolean;
+}
+
+interface InputPropsForProfile {
+  name:
+    | "name"
+    | "location"
+    | "phone"
+    | "email"
+    | "instagram"
+    | "facebook"
+    | "whatsapp"
+    | "size"
+    | "sexe";
+  id: string;
+  type?: string;
+  label: string;
+  addtionnalClass?: string;
+  register: UseFormRegister<UseFormWatchInterfaceForProfile>;
+  // errors: Partial<FieldErrorsImpl<UseFormWatchInterfaceForProfile>>;
+  errors: any;
+}
+
+export const InputForProfile: FC<InputPropsForProfile> = ({
+  name,
+  type,
+  id,
+  label,
+  addtionnalClass,
+  register,
+  errors,
+}) => {
+  return (
+    <div className={`relative w-full ${addtionnalClass}`}>
+      <input
+        type={type ? type : "text"}
+        id={id}
+        className={`border-1 peer w-full rounded-lg border-gray-600 !bg-white text-gray-800  focus:outline-none focus:ring-1  ${
+          errors
+            ? "!border-red-500 focus:!border-red-500 focus:!ring-red-500"
+            : "focus:border-violet-600 focus:ring-violet-600"
+        }`}
+        placeholder=" "
+        {...(type === "number"
+          ? { ...register(name, { valueAsNumber: true }) }
+          : { ...register(name) })}
+      />
+
+      <label
+        htmlFor="email"
+        className={`pointer-events-none absolute -top-2.5 left-1.5 bg-white px-2 text-sm text-gray-500 duration-300 peer-placeholder-shown:top-2 peer-placeholder-shown:left-2 peer-placeholder-shown:text-base peer-focus:-top-2.5 peer-focus:left-1.5 peer-focus:border-violet-600 peer-focus:px-2 peer-focus:text-sm peer-focus:text-violet-600 ${
+          errors ? "peer-focus:!text-red-500" : "peer-focus:text-violet-600"
         }`}
       >
         {label}
@@ -105,7 +181,7 @@ export const InputWithChoice: FC<InputWithChoiceProps> = ({
           type="text"
           id={id}
           autoComplete="off"
-          className={`border-1 peer w-full rounded-lg border-gray-600 text-gray-800 focus:border-violet-600 focus:outline-none focus:ring-1 focus:ring-violet-600 ${
+          className={`border-1 peer w-full rounded-lg border-gray-600 !bg-white text-gray-800 focus:border-violet-600 focus:outline-none focus:ring-1 focus:ring-violet-600 ${
             formErrors &&
             name in formErrors &&
             "border-2 border-red-500  focus:border-red-500 focus:ring-red-500"

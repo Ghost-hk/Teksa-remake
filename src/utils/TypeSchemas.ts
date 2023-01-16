@@ -37,3 +37,23 @@ export const formErrorsSchema = z.object({
     .max(5)
     .optional(),
 });
+
+export const formSchemaForProfile = z.object({
+  name: z.string().min(6).max(16),
+  email: z.string().email(),
+  size: z.string().optional(),
+  sexe: z.enum(["Male", "Female", ""]).optional(),
+  // phone: z.number().or(z.nan()),
+  phone: z.string().optional(),
+  whatsapp: z.number().optional().or(z.nan()),
+  instagram: z.string().optional(),
+  facebook: z.string().optional(),
+  image: z.string().optional(),
+  location: z.string().min(3),
+  showPhone: z.boolean().optional().default(true),
+  showWhatsapp: z.boolean().optional().default(true),
+  useSameNumber: z.boolean().optional().default(true),
+  showInstagram: z.boolean().optional().default(true),
+  showFacebook: z.boolean().optional().default(true),
+  showEmail: z.boolean().optional().default(false),
+});

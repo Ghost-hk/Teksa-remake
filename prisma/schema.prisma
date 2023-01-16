@@ -51,12 +51,12 @@ model User {
   location      String?
   size          String?
   sexe          String?
-  showPhone     Boolean?
-  showWhatsapp  Boolean?
-  useSameNumber Boolean?
-  showInstagam  Boolean?
-  showFacebook  Boolean?
-  showEmail     Boolean?
+  showPhone     Boolean  @default(true)
+  showWhatsapp  Boolean  @default(true)
+  useSameNumber Boolean  @default(true)
+  showInstagram Boolean  @default(true)
+  showFacebook  Boolean  @default(true)
+  showEmail     Boolean  @default(false)
   phoneVerified Boolean?
   emailVerified Boolean?
 

@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../trpc";
 
+import { formSchemaForProfile } from "../../../utils/TypeSchemas";
+
 export const profileRouter = router({
   getProfileDataByUserId: publicProcedure
     .input(
@@ -34,7 +36,7 @@ export const profileRouter = router({
           showPhone: true, // Boolian
           showWhatsapp: true, // Boolian
           useSameNumber: true, // Boolian
-          showInstagam: true, // Boolian
+          showInstagram: true, // Boolian
           showFacebook: true, // Boolian
           showEmail: true, // Boolian
           createdAt: true, // String
@@ -76,11 +78,47 @@ export const profileRouter = router({
           showPhone: true, // Boolian
           showWhatsapp: true, // Boolian
           useSameNumber: true, // Boolian
-          showInstagam: true, // Boolian
+          showInstagram: true, // Boolian
           showFacebook: true, // Boolian
           showEmail: true, // Boolian
           createdAt: true, // String
           updatedAt: true, // String
+        },
+      });
+
+      return user;
+    }),
+
+  updateProfile: protectedProcedure
+    .input(formSchemaForProfile)
+    .mutation(async ({ input, ctx }) => {
+      const { email, ...data } = input;
+
+      let phonenumber = data.phone;
+      phonenumber?.startsWith("+")
+        ? (phonenumber = phonenumber)
+        : (phonenumber = data?.phone
+            ?.toString()
+            .replace("0", "+212") as string);
+
+      let whatsappnumber = "";
+      if (data.useSameNumber) {
+        whatsappnumber = phonenumber;
+      } else {
+        whatsappnumber = data?.whatsapp?.toString() as string;
+        whatsappnumber.startsWith("+")
+          ? (whatsappnumber = whatsappnumber)
+          : (whatsappnumber = data?.whatsapp
+              ?.toString()
+              .replace("0", "+212") as string);
+      }
+
+      const user = await ctx.prisma.user.update({
+        where: { email: email },
+        data: {
+          ...data,
+          whatsapp: whatsappnumber,
+          phone: phonenumber,
         },
       });
 

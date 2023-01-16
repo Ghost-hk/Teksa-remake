@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { trpc } from "../../utils/trpc";
 import Image from "next/image";
@@ -17,7 +17,7 @@ const getWindowSize = () => {
 };
 
 const HomePageForLoggedUser = () => {
-  const router = useRouter();
+  // const router = useRouter();
   // Window Size Stuff
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const [numberOfItems, setNumberOfItems] = useState<number>(4);
@@ -102,8 +102,7 @@ const HomePageForLoggedUser = () => {
                 return ind < numberOfItems ? (
                   <div
                     key={ind}
-                    className="cursor-pointer"
-                    onClick={() => router.push(`store/${item.id}`)}
+                    // onClick={() => router.push(`store/${item.id}`)}
                   >
                     <ItemCard item={item} />
                   </div>
