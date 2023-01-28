@@ -78,18 +78,13 @@ export const DesktopNavbarComponents: FC<DesktopNavbarComponentsProps> = ({
               >
                 <div className="py-1">
                   <CgProfile className="mr-3 inline-block h-6 w-6 text-gray-600" />
-                  <Link href="profile" className="font-normal text-gray-800">
+                  <Link href="/profile" className="font-normal text-gray-800">
                     Profile
                   </Link>
                 </div>
-                <div className="cursor-pointer pb-1">
+                <div className="cursor-pointer pb-1" onClick={() => signOut()}>
                   <FiLogOut className="mr-3 inline-block h-6 w-6 text-gray-600" />
-                  <span
-                    onClick={() => signOut()}
-                    className="font-normal text-gray-800"
-                  >
-                    Sign Out
-                  </span>
+                  <span className="font-normal text-gray-800">Sign Out</span>
                 </div>
               </div>
             </div>

@@ -87,21 +87,31 @@ const HomePageForNewUser = () => {
           {/* Seller or Buyer */}
           <div className="mt-3 flex">
             <div
-              className={`bor w-full border-b-2 ${seller ? "border-violet-600" : "border-gray-600"
-                } cursor-pointer`}
+              className={`w-full border-b-2  ${
+                seller ? "border-violet-600" : "border-gray-600"
+              } cursor-pointer`}
               onClick={() => setSeller((prev) => !prev)}
             >
-              <h3 className="text-center font-semibold text-gray-800">
-                I Am a Seller
+              <h3
+                className={`text-center font-semibold ${
+                  seller ? "text-violet-600" : "text-gray-800"
+                }`}
+              >
+                I&apos;m a Seller
               </h3>
             </div>
             <div
-              className={`bor w-full border-b-2 ${!seller ? "border-violet-600" : "border-gray-600"
-                } cursor-pointer`}
+              className={`w-full border-b-2  ${
+                !seller ? "border-violet-600" : "border-gray-600"
+              } cursor-pointer`}
               onClick={() => setSeller((prev) => !prev)}
             >
-              <h3 className="text-center font-semibold text-gray-800">
-                I Am a Buyer
+              <h3
+                className={`text-center font-semibold ${
+                  !seller ? "text-violet-600" : "text-gray-800"
+                }`}
+              >
+                I&apos;m a Buyer
               </h3>
             </div>
           </div>
@@ -113,71 +123,81 @@ const HomePageForNewUser = () => {
 
       {/* We've Got Your Back */}
       <div className="mt-10 w-full bg-white px-3 md:flex md:justify-center">
-        <div className="md:max-w-lg">
+        <div className="md:max-w-5xl lg:max-w-6xl xl:max-w-7xl">
           {/* We've Got Your Back Title */}
           <h2 className="text-center text-xl font-semibold text-gray-800 md:text-2xl xl:text-2xl">
             WE&apos;VE GOT YOUR BACK
           </h2>
+          <div className="md:flex md:w-full md:gap-7">
+            {/* Protected Payments */}
+            <div className="mt-5 flex flex-1 md:block">
+              <div className="mr-4 md:mb-3 md:flex md:items-center md:gap-3">
+                <Image
+                  src="/secure-payment.png"
+                  alt="FindNewStyle"
+                  width={64}
+                  height={64}
+                />
+                <h3 className="hidden font-semibold uppercase text-gray-800 md:block xl:text-lg">
+                  protected payments
+                </h3>
+              </div>
+              <div>
+                <h3 className="font-semibold uppercase text-gray-800 md:hidden xl:text-lg">
+                  protected payments
+                </h3>
+                <p className="text-sm text-gray-600 xl:text-base">
+                  If it&apos;s not what you ordered, we guarantee to give your
+                  money back.
+                </p>
+              </div>
+            </div>
 
-          {/* Protected Payments */}
-          <div className="mt-5 flex">
-            <div className="mr-4">
-              <Image
-                src="/secure-payment.png"
-                alt="FindNewStyle"
-                width={64}
-                height={64}
-              />
+            {/* Expedited Shipping*/}
+            <div className="mt-5 flex flex-1 md:block">
+              <div className="mr-4 md:mb-3 md:flex md:items-center md:gap-3">
+                <Image
+                  src="/express-delivery.png"
+                  alt="FindNewStyle"
+                  width={64}
+                  height={64}
+                />
+                <h3 className="hidden font-semibold uppercase text-gray-800 md:block xl:text-lg">
+                  Expedited Shipping
+                </h3>
+              </div>
+              <div>
+                <h3 className="font-semibold uppercase text-gray-800 md:hidden xl:text-lg">
+                  Expedited Shipping
+                </h3>
+                <p className="text-sm text-gray-600 xl:text-base">
+                  All orders ship via USPS priority mail. With our pre-paid
+                  label, shipping has never been easier!
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-semibold uppercase text-gray-800 xl:text-lg">
-                protected payments
-              </h3>
-              <p className="text-sm text-gray-600 xl:text-base">
-                If it&apos;s not what you ordered, we guarantee to give your
-                money back.
-              </p>
-            </div>
-          </div>
-
-          {/* Expedited Shipping*/}
-          <div className="mt-5 flex">
-            <div className="mr-4">
-              <Image
-                src="/express-delivery.png"
-                alt="FindNewStyle"
-                width={64}
-                height={64}
-              />
-            </div>
-            <div>
-              <h3 className="font-semibold uppercase text-gray-800 xl:text-lg">
-                Expedited Shipping
-              </h3>
-              <p className="text-sm text-gray-600 xl:text-base">
-                All orders ship via USPS priority mail. With our pre-paid label,
-                shipping has never been easier!
-              </p>
-            </div>
-          </div>
-          {/* Free Authentication */}
-          <div className="mt-5 flex">
-            <div className="mr-4">
-              <Image
-                src="/identification.png"
-                alt="FindNewStyle"
-                width={64}
-                height={64}
-              />
-            </div>
-            <div>
-              <h3 className="font-semibold uppercase text-gray-800 xl:text-lg">
-                Free Authentication
-              </h3>
-              <p className="text-sm text-gray-600 xl:text-base">
-                Shop with confidence! Posh Authenticate offers free
-                authentication on luxury items.
-              </p>
+            {/* Free Authentication */}
+            <div className="mt-5 flex flex-1 md:block">
+              <div className="mr-4 md:mb-3 md:flex md:items-center md:gap-3">
+                <Image
+                  src="/identification.png"
+                  alt="FindNewStyle"
+                  width={64}
+                  height={64}
+                />
+                <h3 className="hidden font-semibold uppercase text-gray-800 md:block xl:text-lg">
+                  Free Authentication
+                </h3>
+              </div>
+              <div>
+                <h3 className="font-semibold uppercase text-gray-800 md:hidden xl:text-lg">
+                  Free Authentication
+                </h3>
+                <p className="text-sm text-gray-600 xl:text-base">
+                  Shop with confidence! Posh Authenticate offers free
+                  authentication on luxury items.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -191,12 +211,8 @@ export default HomePageForNewUser;
 export const Seller = () => {
   return (
     <div className="w-full">
-      <div className="flex w-full items-center">
-        <p className="mr-2 text-center font-semibold uppercase">
-          step
-          <br />
-          01
-        </p>
+      <div className="mb-5 flex w-full items-center">
+        <p className="mr-2 text-center font-semibold uppercase">step 1</p>
         <div className="w-full">
           <p className="border-b-2 border-gray-800 font-semibold uppercase text-gray-800 xl:text-lg">
             list it
@@ -207,12 +223,8 @@ export const Seller = () => {
           </p>
         </div>
       </div>
-      <div className="my-3 flex w-full flex-row-reverse items-center">
-        <p className="ml-2 text-center font-semibold uppercase">
-          step
-          <br />
-          02
-        </p>
+      <div className="mb-5 flex w-full items-center">
+        <p className="mr-2 text-center font-semibold uppercase">step 2</p>
         <div className="w-full">
           <p className="border-b-2 border-gray-800 font-semibold uppercase text-gray-800 xl:text-lg">
             share it
@@ -224,11 +236,7 @@ export const Seller = () => {
         </div>
       </div>
       <div className="flex w-full items-center">
-        <p className="mr-2 text-center font-semibold uppercase">
-          step
-          <br />
-          03
-        </p>
+        <p className="mr-2 text-center font-semibold uppercase">step 3</p>
         <div className="w-full">
           <p className="border-b-2 border-gray-800 font-semibold uppercase text-gray-800 xl:text-lg">
             earn cash
@@ -246,13 +254,9 @@ export const Seller = () => {
 export const Buyer = () => {
   return (
     <div className="w-full">
-      <div className="flex w-full items-center">
-        <p className="mr-2 text-center font-semibold uppercase">
-          step
-          <br />
-          01
-        </p>
-        <div className="w-full">
+      <div className="mb-5 flex w-full items-center">
+        <p className="mr-2 text-center font-semibold uppercase">step 1</p>
+        <div className="w-full ">
           <p className="border-b-2 border-gray-800 font-semibold uppercase text-gray-800 xl:text-lg">
             discover items
           </p>
@@ -262,12 +266,8 @@ export const Buyer = () => {
           </p>
         </div>
       </div>
-      <div className="my-3 flex w-full flex-row-reverse items-center">
-        <p className="ml-2 text-center font-semibold uppercase">
-          step
-          <br />
-          02
-        </p>
+      <div className="mb-5 flex w-full items-center">
+        <p className="mr-2 text-center font-semibold uppercase">step 2</p>
         <div className="w-full">
           <p className="border-b-2 border-gray-800 font-semibold uppercase text-gray-800 xl:text-lg">
             get styled
@@ -279,11 +279,7 @@ export const Buyer = () => {
         </div>
       </div>
       <div className="flex w-full items-center">
-        <p className="mr-2 text-center font-semibold uppercase">
-          step
-          <br />
-          03
-        </p>
+        <p className="mr-2 text-center font-semibold uppercase">step 3</p>
         <div className="w-full">
           <p className="border-b-2 border-gray-800 font-semibold uppercase text-gray-800 xl:text-lg">
             spread the love

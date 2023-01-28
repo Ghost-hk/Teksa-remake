@@ -96,6 +96,8 @@ const Navbar = () => {
       <Sidebar
         slidebarIsOpen={slidebarIsOpen}
         setSlidebarIsOpen={setSlidebarIsOpen}
+        data={data}
+        status={status}
       />
     </>
   );
