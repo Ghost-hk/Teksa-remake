@@ -275,4 +275,35 @@ export const postsRouter = router({
 
       return deletedPost;
     }),
+
+  paginatedPosts: publicProcedure
+    .input(
+      z.object({
+        filters: z.object({}).optional(),
+        currPage: z.number().int().min(0),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { filters, currPage } = input;
+
+      const posts = await ctx.prisma.post.findMany({
+        skip: 1 * (currPage - 1),
+        take: 1,
+        where: filters,
+        include: {
+          images: true,
+          brand: true,
+          user: true,
+        },
+      });
+
+      const numOfPosts = await ctx.prisma.post.count({ where: filters });
+
+      const numberOfPages = Math.ceil(numOfPosts / 1);
+
+      return {
+        numberOfPages,
+        posts,
+      };
+    }),
 });
