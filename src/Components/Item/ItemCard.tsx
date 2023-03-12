@@ -31,7 +31,7 @@ const ItemCard: FC<ItemProps> = ({
     <div className="aspect-[1/0.5] w-full rounded-md bg-white shadow-md">
       {/* Img */}
       <div
-        className="relative aspect-[1/1]  w-full cursor-pointer"
+        className="relative aspect-[1/1]  w-full cursor-pointer overflow-x-hidden rounded-t-md"
         onClick={() => router.push(`store/${item.id}`)}
       >
         <Image

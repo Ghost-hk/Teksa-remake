@@ -285,10 +285,11 @@ export const postsRouter = router({
     )
     .query(async ({ ctx, input }) => {
       const { filters, currPage } = input;
+      const take = 3;
 
       const posts = await ctx.prisma.post.findMany({
-        skip: 1 * (currPage - 1),
-        take: 1,
+        skip: take * currPage - take,
+        take: take,
         where: filters,
         include: {
           images: true,
@@ -299,7 +300,7 @@ export const postsRouter = router({
 
       const numOfPosts = await ctx.prisma.post.count({ where: filters });
 
-      const numberOfPages = Math.ceil(numOfPosts / 1);
+      const numberOfPages = Math.ceil(numOfPosts / take);
 
       return {
         numberOfPages,
