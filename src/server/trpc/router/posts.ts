@@ -285,7 +285,7 @@ export const postsRouter = router({
     )
     .query(async ({ ctx, input }) => {
       const { filters, currPage } = input;
-      const take = 3;
+      const take = 10;
 
       const posts = await ctx.prisma.post.findMany({
         skip: take * currPage - take,

@@ -33,7 +33,6 @@ const ItemsComp: FC<ItemsCompProps> = ({ page }) => {
       setCurrPage(1);
       setNextPage(2);
       setPrevPage(1);
-      console.log("hit the if === 0");
     }
 
     if (data?.numberOfPages && currPage && currPage < data?.numberOfPages) {
@@ -55,8 +54,6 @@ const ItemsComp: FC<ItemsCompProps> = ({ page }) => {
     setPrevPage,
     data?.numberOfPages,
   ]);
-
-  console.log("currPage", currPage, "page", page);
 
   if (isLoading) {
     return (

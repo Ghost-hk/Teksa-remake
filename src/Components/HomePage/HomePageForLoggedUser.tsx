@@ -83,7 +83,10 @@ const HomePageForLoggedUser = () => {
         {/* New Items & View All */}
         <div className="mb-2 flex justify-between">
           <h2 className="font-semibold text-gray-800 xl:text-lg">New Items</h2>
-          <Link className="text-sm text-violet-600 underline" href="#">
+          <Link
+            className="text-sm text-violet-600 underline"
+            href="/store?page=1"
+          >
             View All
           </Link>
         </div>
