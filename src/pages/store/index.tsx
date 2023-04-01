@@ -17,36 +17,61 @@ import {
 import { usePagination } from "@mantine/hooks";
 
 import { SlidersHorizontal } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { trpc } from "@/utils/trpc";
 
 const StorePage = () => {
-  const router = useRouter();
-  // const { page: pageFromUrl } = router.query;
+  const { currPage, numberOfPages, setNumberOfPages, setCurrPage } =
+    usePageStore();
 
-  const { currPage, prevPage, nextPage, numberOfPages } = usePageStore();
-  // const pagination = usePagination({
-
-  //   initialPage: 1,
-  // });
-  // const [page, onChange] = useState<number>(pageFromUrl ? +pageFromUrl : 1);
   const [page, onChange] = useState<number>(1);
   const pagination = usePagination({
     total: numberOfPages as number,
     page,
     onChange,
-    // siblings: 3,
   });
 
-  console.log(page);
+  const [filters, setFilters] = useState<
+    | {
+        brand: string[];
+        sexe: string[];
+        category: string[];
+        price: number;
+        size: string[];
+      }
+    | undefined
+  >();
+  console.log("this is form the fe", filters);
+
+  const { data, isLoading } = trpc.posts.paginatedPosts.useQuery(
+    { currPage: currPage as number, filters },
+    { refetchOnWindowFocus: false, enabled: !!currPage }
+  );
+
+  useEffect(() => {
+    if (data?.numberOfPages) {
+      setNumberOfPages(data.numberOfPages);
+    }
+  }, [data?.numberOfPages, setNumberOfPages]);
+
+  useEffect(() => {
+    // if (!page) return;
+
+    setCurrPage(page ? (+page as number) : undefined);
+    if (page && +page === 0) {
+      // router.push("/store?page=1");
+      setCurrPage(1);
+    }
+  }, [currPage, page, setCurrPage, data?.numberOfPages]);
 
   return (
     <div className="mx-3 mt-5 justify-center md:mx-5 md:flex lg:mx-6">
       <div className="w-full justify-center gap-6 md:flex">
         {/* this is the filter section for desktop */}
         <div className="hidden w-72 rounded-md bg-white shadow-md md:block md:self-start">
-          <Filters />
+          <Filters setFilters={setFilters} />
         </div>
 
         {/* this is the mobile filter section */}
@@ -74,7 +99,7 @@ const StorePage = () => {
 
         <div className="w-full md:max-w-2xl lg:max-w-4xl">
           {/* this is the posts */}
-          <ItemsComp page={page ? page : undefined} />
+          <ItemsComp data={data} isLoading={isLoading} />
 
           {/* this is the pagination */}
           <div className="my-6 flex w-full items-center justify-center rounded-md bg-white p-4 shadow-md">

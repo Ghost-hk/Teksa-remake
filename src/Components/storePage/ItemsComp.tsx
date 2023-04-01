@@ -1,60 +1,23 @@
-import router from "next/router";
-import { type FC, useEffect } from "react";
-import { trpc } from "../../utils/trpc";
+import { type FC } from "react";
 import ItemCard, { ItemCardSkeleton } from "../Item/ItemCard";
 
-import { usePageStore } from "@/store/s_pagination";
+import type { Brand, Images, Post, User } from "@prisma/client";
 
 interface ItemsCompProps {
-  page: number | undefined;
+  data:
+    | {
+        numberOfPages: number;
+        posts: (Post & {
+          user: User;
+          images: Images[];
+          brand: Brand[];
+        })[];
+      }
+    | undefined;
+  isLoading: boolean;
 }
 
-const ItemsComp: FC<ItemsCompProps> = ({ page }) => {
-  const { currPage, setCurrPage, setNextPage, setPrevPage, setNumberOfPages } =
-    usePageStore();
-
-  const { data, isLoading } = trpc.posts.paginatedPosts.useQuery(
-    { currPage: currPage as number },
-    { refetchOnWindowFocus: false, enabled: !!currPage }
-  );
-
-  useEffect(() => {
-    if (data?.numberOfPages) {
-      setNumberOfPages(data.numberOfPages);
-    }
-  }, [data?.numberOfPages, setNumberOfPages]);
-
-  useEffect(() => {
-    // if (!page) return;
-
-    setCurrPage(page ? (+page as number) : undefined);
-    if (page && +page === 0) {
-      router.push("/store?page=1");
-      setCurrPage(1);
-      setNextPage(2);
-      setPrevPage(1);
-    }
-
-    if (data?.numberOfPages && currPage && currPage < data?.numberOfPages) {
-      setNextPage(currPage + 1);
-    }
-
-    if (currPage && currPage >= 1) {
-      if (currPage === 1) {
-        setPrevPage(currPage);
-      } else {
-        setPrevPage(currPage - 1);
-      }
-    }
-  }, [
-    currPage,
-    page,
-    setCurrPage,
-    setNextPage,
-    setPrevPage,
-    data?.numberOfPages,
-  ]);
-
+const ItemsComp: FC<ItemsCompProps> = ({ data, isLoading }) => {
   if (isLoading) {
     return (
       <div>

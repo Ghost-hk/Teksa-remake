@@ -279,18 +279,49 @@ export const postsRouter = router({
   paginatedPosts: publicProcedure
     .input(
       z.object({
-        filters: z.object({}).optional(),
-        currPage: z.number().int().min(0),
+        filters: z
+          .object({
+            brand: z.string().array(),
+            sexe: z.string().array(),
+            category: z.string().array(),
+            size: z.string().array(),
+            price: z.number(),
+          })
+          .optional(),
+        currPage: z.number().int().min(1),
       })
     )
     .query(async ({ ctx, input }) => {
       const { filters, currPage } = input;
       const take = 10;
-
       const posts = await ctx.prisma.post.findMany({
         skip: take * currPage - take,
         take: take,
-        where: filters,
+        where: {
+          OR: [
+            {
+              category: {
+                some: { name: { in: filters?.category } },
+              },
+            },
+            {
+              brand: {
+                some: { name: { in: filters?.brand } },
+              },
+            },
+            {
+              sexe: {
+                in: filters?.sexe,
+              },
+            },
+            {
+              size: {
+                in: filters?.size,
+              },
+            },
+          ],
+          price: { lte: filters?.price },
+        },
         include: {
           images: true,
           brand: true,
@@ -298,7 +329,8 @@ export const postsRouter = router({
         },
       });
 
-      const numOfPosts = await ctx.prisma.post.count({ where: filters });
+      // add the filters obj !!!!!
+      const numOfPosts = await ctx.prisma.post.count({});
 
       const numberOfPages = Math.ceil(numOfPosts / take);
 
