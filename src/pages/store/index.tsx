@@ -35,11 +35,11 @@ const StorePage = () => {
 
   const [filters, setFilters] = useState<
     | {
-        brand: string[];
-        sexe: string[];
-        category: string[];
-        price: number;
-        size: string[];
+        brand: string[] | undefined;
+        sexe: string[] | undefined;
+        category: string[] | undefined;
+        price: number | undefined;
+        size: string[] | undefined;
       }
     | undefined
   >();

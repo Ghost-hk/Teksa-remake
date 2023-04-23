@@ -281,11 +281,11 @@ export const postsRouter = router({
       z.object({
         filters: z
           .object({
-            brand: z.string().array(),
-            sexe: z.string().array(),
-            category: z.string().array(),
-            size: z.string().array(),
-            price: z.number(),
+            brand: z.string().array().optional(),
+            sexe: z.string().array().optional(),
+            category: z.string().array().optional(),
+            size: z.string().array().optional(),
+            price: z.number().optional().optional(),
           })
           .optional(),
         currPage: z.number().int().min(1),
@@ -293,6 +293,7 @@ export const postsRouter = router({
     )
     .query(async ({ ctx, input }) => {
       const { filters, currPage } = input;
+      console.log(filters);
       const take = 10;
       const posts = await ctx.prisma.post.findMany({
         skip: take * currPage - take,
@@ -319,8 +320,15 @@ export const postsRouter = router({
                 in: filters?.size,
               },
             },
+            // {
+            //   price: { lte: filters?.price },
+            // },
           ],
-          price: { lte: filters?.price },
+          AND: [
+            {
+              price: { lte: filters?.price },
+            },
+          ],
         },
         include: {
           images: true,

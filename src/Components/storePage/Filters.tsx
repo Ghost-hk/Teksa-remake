@@ -13,11 +13,11 @@ interface FiltersProps {
   setFilters: Dispatch<
     SetStateAction<
       | {
-          brand: string[];
-          sexe: string[];
-          category: string[];
-          price: number;
-          size: string[];
+          brand: string[] | undefined;
+          sexe: string[] | undefined;
+          category: string[] | undefined;
+          price: number | undefined;
+          size: string[] | undefined;
         }
       | undefined
     >
@@ -34,35 +34,37 @@ const Filters: FC<FiltersProps> = ({ setFilters }) => {
     { refetchOnWindowFocus: false }
   );
   const [activeFilters, setActiveFilters] = useState<{
-    brand: string[];
-    sexe: string[];
-    category: string[];
-    price: number;
-    size: string[];
+    brand: string[] | undefined;
+    sexe: string[] | undefined;
+    category: string[] | undefined;
+    price: number | undefined;
+    size: string[] | undefined;
   }>({
-    brand: [],
-    sexe: [],
-    category: [],
-    price: 0,
-    size: [],
+    brand: undefined,
+    sexe: undefined,
+    category: undefined,
+    price: undefined,
+    size: undefined,
   });
+
   const handleCheckBox = (
-    e: ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement>,
     val: "brand" | "sexe" | "category" | "size"
   ) => {
-    // setActiveFilters((prev) => ({
-    //   ...prev,
-    //   [val]: { ...activeFilters[val], [e.target.name]: e.target.checked },
-    // }));
     e.target.checked
       ? setActiveFilters((prev) => ({
           ...prev,
-          [val]: [...(prev[val] as []), e.target.name],
+          [val]: [...(prev[val] ?? []), e.target.name],
         }))
-      : setActiveFilters((prev) => ({
-          ...prev,
-          [val]: [...activeFilters[val].filter((v) => v !== e.target.name)],
-        }));
+      : setActiveFilters((prev) => {
+          const updatedVal = (prev[val] ?? []).filter(
+            (v: string) => v !== e.target.name
+          );
+          return {
+            ...prev,
+            [val]: updatedVal.length > 0 ? updatedVal : undefined,
+          };
+        });
   };
 
   const sizes = ["S", "M", "L", "XL", "XXL", "XXXL"];
@@ -111,7 +113,7 @@ const Filters: FC<FiltersProps> = ({ setFilters }) => {
                         type="checkbox"
                         name={category.name}
                         checked={
-                          activeFilters.category.includes(category.name)
+                          activeFilters.category?.includes(category.name)
                             ? true
                             : false
                         }
@@ -140,7 +142,7 @@ const Filters: FC<FiltersProps> = ({ setFilters }) => {
                         type="checkbox"
                         name={brand.name}
                         checked={
-                          activeFilters.brand.includes(brand.name)
+                          activeFilters.brand?.includes(brand.name)
                             ? true
                             : false
                         }
@@ -169,7 +171,7 @@ const Filters: FC<FiltersProps> = ({ setFilters }) => {
                         type="checkbox"
                         name={size}
                         checked={
-                          activeFilters.size.includes(size) ? true : false
+                          activeFilters.size?.includes(size) ? true : false
                         }
                         onChange={(e) => handleCheckBox(e, "size")}
                         className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-purple-600 ring-0 focus:ring-purple-500"
@@ -195,7 +197,7 @@ const Filters: FC<FiltersProps> = ({ setFilters }) => {
                       type="checkbox"
                       name="Male"
                       checked={
-                        activeFilters.sexe.includes("Male") ? true : false
+                        activeFilters.sexe?.includes("Male") ? true : false
                       }
                       onChange={(e) => handleCheckBox(e, "sexe")}
                       className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-purple-600 ring-0 focus:ring-purple-500"
@@ -213,7 +215,7 @@ const Filters: FC<FiltersProps> = ({ setFilters }) => {
                       type="checkbox"
                       name="Female"
                       checked={
-                        activeFilters.sexe.includes("Female") ? true : false
+                        activeFilters.sexe?.includes("Female") ? true : false
                       }
                       onChange={(e) => handleCheckBox(e, "sexe")}
                       className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-purple-600 ring-0 focus:ring-purple-500"
