@@ -75,6 +75,16 @@ const Filters: FC<FiltersProps> = ({ setFilters }) => {
     setFilters(activeFilters);
   };
 
+  const clearFilters = () => {
+    setActiveFilters({
+      brand: undefined,
+      sexe: undefined,
+      category: undefined,
+      price: undefined,
+      size: undefined,
+    });
+  };
+
   return (
     <div>
       <div className="w-full bg-white ">
@@ -232,12 +242,20 @@ const Filters: FC<FiltersProps> = ({ setFilters }) => {
             </AccordionItem>
           </Accordion>
 
-          <button
-            className="w-full rounded-md bg-violet-600 px-3 py-1 text-lg font-semibold text-white"
-            onClick={creatTheFilterForPrisma}
-          >
-            Apply Filtes
-          </button>
+          <div className="flex">
+            <button
+              className="w-full rounded-md bg-violet-600 px-3 py-1 text-lg font-semibold text-white"
+              onClick={creatTheFilterForPrisma}
+            >
+              Apply Filters
+            </button>
+            <button
+              className="w-full rounded-md bg-violet-600 px-3 py-1 text-lg font-semibold text-white"
+              onClick={clearFilters}
+            >
+              Clear Filters
+            </button>
+          </div>
         </div>
       </div>
     </div>

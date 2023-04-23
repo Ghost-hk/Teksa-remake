@@ -299,7 +299,7 @@ export const postsRouter = router({
         skip: take * currPage - take,
         take: take,
         where: {
-          OR: [
+          AND: [
             {
               category: {
                 some: { name: { in: filters?.category } },
@@ -320,15 +320,12 @@ export const postsRouter = router({
                 in: filters?.size,
               },
             },
-            // {
-            //   price: { lte: filters?.price },
-            // },
           ],
-          AND: [
-            {
-              price: { lte: filters?.price },
-            },
-          ],
+          // AND: [
+          // {
+          // price: { lte: filters?.price },
+          // },
+          // ],
         },
         include: {
           images: true,
