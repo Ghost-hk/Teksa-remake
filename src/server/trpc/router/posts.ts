@@ -320,11 +320,11 @@ export const postsRouter = router({
                 in: filters?.size,
               },
             },
+            {
+              price: { lte: filters?.price },
+            },
           ],
           // AND: [
-          // {
-          // price: { lte: filters?.price },
-          // },
           // ],
         },
         include: {
